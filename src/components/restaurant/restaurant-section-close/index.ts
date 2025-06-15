@@ -1,0 +1,1 @@
+export * from "./restaurant-close.component";
