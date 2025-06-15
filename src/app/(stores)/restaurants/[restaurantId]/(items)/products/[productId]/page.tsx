@@ -7,10 +7,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Icon } from "@/components/ui/icon";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const accompaniments = [
@@ -145,7 +147,9 @@ export default function ProductPage() {
                 >
                   <Icon icon={faTrashAlt} size={20} />
                 </Button>
-                <span className="text-base font-bold text-neutral-700">1</span>
+                <span className="xs:min-w-8 min-w-5 flex-1 text-center text-sm font-bold text-neutral-700">
+                  99
+                </span>
                 <Button
                   variant="ghost"
                   className="hover:text-neutral-0 h-8 min-h-8 w-8 max-w-8 min-w-8 rounded-full border border-teal-400 p-0 text-teal-400 hover:bg-teal-400"
@@ -298,7 +302,9 @@ export default function ProductPage() {
                 </Button>
               </div>
 
-              <span className="flex-1 leading-tight">{option.label}</span>
+              <span className="flex-1 text-sm leading-tight">
+                {option.label}
+              </span>
 
               <p className="ml-auto text-sm font-bold whitespace-nowrap text-purple-500">
                 +R$ {option.value.toFixed(2)}
@@ -370,7 +376,10 @@ export default function ProductPage() {
           {extras.map((option) => (
             <div className="flex-1" key={option.id}>
               <label
-                className="flex items-center gap-2 rounded-sm p-2 hover:bg-neutral-50"
+                className={cn(
+                  "flex items-center gap-2 rounded-sm p-2 hover:bg-neutral-50",
+                  isOptionDisabled(option.id) && "opacity-50",
+                )}
                 htmlFor={option.id}
               >
                 <Checkbox
@@ -380,7 +389,11 @@ export default function ProductPage() {
                   disabled={isOptionDisabled(option.id)}
                 />
                 <span className="text-sm text-neutral-500">{option.label}</span>
-                <span className="ml-auto text-right text-sm font-bold text-purple-500">
+                <span
+                  className={cn(
+                    "ml-auto text-right text-sm font-bold text-purple-500",
+                  )}
+                >
                   +R$ {option.value.toFixed(2)}
                 </span>
               </label>
@@ -396,9 +409,23 @@ export default function ProductPage() {
       {/* Notes */}
       <div className="container-default flex flex-col py-4">
         <textarea
-          placeholder="alguma observação do item? • opcionalex: tirar algum ingrediente, ponto do prato"
+          rows={2}
+          placeholder="alguma observação do item? exe: tirar algum ingrediente, ponto do prato"
           className="border-decorative-divider w-full resize-none rounded-sm border px-3 py-2 text-sm placeholder:text-sm placeholder:font-semibold placeholder:text-neutral-500"
         />
+      </div>
+
+      {/* Action */}
+      <div className="container-default hidden lg:flex lg:flex-col lg:gap-4 lg:py-4">
+        <Button
+          className="ml-auto w-full min-w-[17rem] lg:w-fit"
+          size="lg"
+          asChild
+        >
+          <Link href={`/checkout/4d29fb5c-5a61-4b9c-b6ed-3ec4d993d98b`}>
+            ver ticket
+          </Link>
+        </Button>
       </div>
     </div>
   );

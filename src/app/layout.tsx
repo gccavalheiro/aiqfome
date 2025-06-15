@@ -4,10 +4,9 @@ import "./globals.css";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { Layout } from "@/components/layout";
 config.autoAddCss = false;
 
-const geistSans = Nunito({
+const nunitoSans = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
   weight: ["400", "600", "700", "800"],
@@ -43,9 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${geistSans.variable} antialiased`}>
-        <Layout>{children}</Layout>
-      </body>
+      <body className={`${nunitoSans.variable} antialiased`}>{children}</body>
     </html>
   );
-}
+} 

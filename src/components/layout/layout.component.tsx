@@ -15,7 +15,7 @@ export function Layout(props: LayoutProps) {
   const { children } = props;
 
   return (
-    <div className="relative mx-auto text-neutral-500">
+    <div className="relative text-neutral-500">
       <Header.Root>
         <Header.Container>
           <Header.Content>
@@ -37,9 +37,10 @@ export function Layout(props: LayoutProps) {
           </Header.Search>
         </Header.Container>
       </Header.Root>
-      <div className="min-h-[calc(100dvh-6.25rem)] pt-[8.25rem] md:pt-[4.75rem]">
+
+      <main className="min-h-[calc(100dvh-6.25rem)] pt-[8.25rem] md:pt-[4.75rem]">
         {children}
-      </div>
+      </main>
 
       <Footer.Root>
         <Footer.Container>

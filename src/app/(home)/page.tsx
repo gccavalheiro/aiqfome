@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default async function Home() {
   return (
-    <main>
+    <div>
       <Hero.Root>
         <Image
           src="/assets/images/hero-banner.jpg"
@@ -15,6 +15,6 @@ export default async function Home() {
         />
       </Hero.Root>
       <RestaurantsPage data={data} />
-    </main>
+    </div>
   );
 }
