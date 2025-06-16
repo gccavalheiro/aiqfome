@@ -6,9 +6,7 @@ type RestaurantSectionProps = React.HTMLAttributes<HTMLElement>;
 function RestaurantRoot(props: RestaurantSectionProps) {
   const { className, ...rest } = props;
 
-  return (
-    <section className={cn("py-6 [&+&]:pt-0", className)} {...rest} />
-  );
+  return <section className={cn("py-6 [&+&]:pt-0", className)} {...rest} />;
 }
 
 type RestaurantTitleProps = React.HTMLAttributes<HTMLHeadingElement>;

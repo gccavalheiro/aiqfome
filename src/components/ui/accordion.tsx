@@ -1,5 +1,3 @@
-"use client";
-
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import * as React from "react";
 
@@ -9,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type AccordionProps = React.ComponentProps<typeof AccordionPrimitive.Root>;
 
-const Accordion = (props: AccordionProps) => {
+const AccordionRoot = (props: AccordionProps) => {
   const { ...rest } = props;
 
   return <AccordionPrimitive.Root data-slot="accordion" {...rest} />;
@@ -88,10 +86,10 @@ const AccordionContent = (props: AccordionContentProps) => {
   );
 };
 
-export {
-  Accordion,
-  AccordionContent,
-  AccordionHeader,
-  AccordionItem,
-  AccordionTrigger,
+export const Accordion = {
+  Root: AccordionRoot,
+  Content: AccordionContent,
+  Header: AccordionHeader,
+  Item: AccordionItem,
+  Trigger: AccordionTrigger,
 };

@@ -1,46 +1,130 @@
 import { RestaurantCard } from "@/components/restaurant/restaurant-card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionHeader,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { RestaurantPage } from "@/components/restaurant/restaurant-page/restaurant-page.component";
 import { Icon } from "@/components/ui/icon";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import {
   faChevronRight,
   faCircle,
+  faHeart,
   faMotorcycle,
   faShareNodes,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 
 import Image from "next/image";
+import { RestaurantPageMenu } from "./products/components/restaurant-page-menu.component";
 import Link from "next/link";
-import { randomUUID } from "node:crypto";
 
-export default function RestaurantPage() {
+const mockCategories = [
+  {
+    id: "category-1",
+    name: "Niguiris",
+    description: "Peixe fresco fatiado sobre arroz temperado com vinagre",
+    items: [
+      {
+        id: "item-1-1",
+        name: "Niguiri Salmão",
+        description: "Salmão fresco sobre arroz temperado",
+        price: "R$ 24,90",
+        originalPrice: "R$ 29,90",
+        isVegetarian: false,
+        isPromotion: true,
+      },
+      {
+        id: "item-1-2",
+        name: "Niguiri Atum",
+        description: "Atum fresco sobre arroz temperado",
+        price: "R$ 22,90",
+        isVegetarian: false,
+        isPromotion: false,
+      },
+      {
+        id: "item-1-3",
+        name: "Niguiri Vegetariano",
+        description: "Abacate, pepino e cenoura sobre arroz temperado",
+        price: "R$ 19,90",
+        isVegetarian: true,
+        isPromotion: false,
+      },
+    ],
+  },
+  {
+    id: "category-2",
+    name: "Temakis",
+    description:
+      "Cones de alga nori recheados com arroz e ingredientes frescos",
+    items: [
+      {
+        id: "item-2-1",
+        name: "Temaki Salmão",
+        description: "Salmão, cream cheese, cebolinha e molho tarê",
+        price: "R$ 28,90",
+        isVegetarian: false,
+        isPromotion: false,
+      },
+      {
+        id: "item-2-2",
+        name: "Temaki Vegetariano",
+        description: "Cenoura, pepino, abacate e cream cheese",
+        price: "R$ 24,90",
+        isVegetarian: true,
+        isPromotion: false,
+      },
+    ],
+  },
+  {
+    id: "category-3",
+    name: "Hot Rolls",
+    description: "Sushis empanados e fritos com molhos especiais",
+    items: [
+      {
+        id: "item-3-1",
+        name: "Hot Philadelphia",
+        description: "Salmão, cream cheese e cebolinha empanados",
+        price: "R$ 32,90",
+        isVegetarian: false,
+      },
+      {
+        id: "item-3-2",
+        name: "Hot California",
+        description: "Kani, cream cheese e cebolinha empanados",
+        price: "R$ 29,90",
+        originalPrice: "R$ 34,90",
+        isVegetarian: false,
+        isPromotion: true,
+      },
+    ],
+  },
+];
+
+const mockRestaurantInfo = {
+  deliveryFee: "R$ 5,00",
+  deliveryTime: "30-45 min",
+  distance: "2,5 km",
+  freeDeliveryOver: "Frete grátis acima de R$ 50,00",
+  rating: "4.8",
+  closingTime: "Fecha às 23:00",
+  minimumOrder: "Pedido mínimo R$ 20,00",
+};
+
+export default function Restaurant() {
   return (
-    <section className="py-6">
-      <header className="container-default flex flex-col gap-2 md:gap-4">
-        <div className="flex items-center gap-2">
+    <RestaurantPage.Root>
+      <RestaurantPage.Header>
+        <RestaurantPage.Display>
           <RestaurantCard.Image className="max-w-8 min-w-8 rounded-sm md:max-w-[4.5rem]">
             <Image
               src="/assets/images/logo-loja-01.png"
-              alt=""
+              alt="Matsuri Concept Logo"
               width={100}
               height={100}
               className="object-cover"
             />
           </RestaurantCard.Image>
+          <RestaurantPage.Title>Matsuri Concept</RestaurantPage.Title>
+        </RestaurantPage.Display>
 
-          <h1 className="text-xl font-extrabold text-neutral-900 md:text-3xl">
-            Matsuri Concept
-          </h1>
-        </div>
-
-        <div className="flex items-center justify-between">
+        <RestaurantPage.Actions>
           <div className="flex items-center gap-6">
             <button className="cursor-pointer">
               <Icon
@@ -48,242 +132,63 @@ export default function RestaurantPage() {
                 className="rotate-180 text-xl text-purple-500 md:text-3xl"
               />
             </button>
-
             <button className="cursor-pointer">
               <Icon
                 icon={faHeart}
                 className="text-xl text-purple-500 md:text-3xl"
               />
+              <Icon
+                icon={faHeartRegular}
+                className="text-xl text-purple-500 md:text-3xl"
+              />
             </button>
           </div>
-
           <Link
             href="/"
             className="flex items-center gap-2 text-xs font-bold tracking-wide text-teal-400 hover:underline hover:underline-offset-2 md:text-base"
           >
             mais infos <Icon icon={faChevronRight} size={12} />
           </Link>
-        </div>
+        </RestaurantPage.Actions>
 
-        <div className="flex flex-col gap-2">
+        <RestaurantPage.Info>
           <RestaurantCard.Info className="text-xs md:text-base">
             <RestaurantCard.Fee className="text-sm md:text-lg">
               <Icon icon={faMotorcycle} />
-              R$ 4,99
+              {mockRestaurantInfo.deliveryFee}
             </RestaurantCard.Fee>
-
             <Icon icon={faCircle} className="text-neutral-400" fontSize={6} />
-
-            <RestaurantCard.Status>hoje, 30-40 min</RestaurantCard.Status>
-
+            <RestaurantCard.Status>
+              {mockRestaurantInfo.deliveryTime}
+            </RestaurantCard.Status>
             <Icon icon={faCircle} className="text-neutral-400" fontSize={6} />
-
-            <RestaurantCard.Status>5.2km</RestaurantCard.Status>
+            <RestaurantCard.Status>
+              {mockRestaurantInfo.distance}
+            </RestaurantCard.Status>
           </RestaurantCard.Info>
 
           <RestaurantCard.Delivery className="w-fit rounded-md bg-teal-50 px-4 py-2 text-xs md:text-base">
-            entrega grátis acima de R$ 35,00
+            {mockRestaurantInfo.freeDeliveryOver}
           </RestaurantCard.Delivery>
 
           <RestaurantCard.Info className="text-xs md:text-base">
             <RestaurantCard.Rating>
               <Icon icon={faStar} className="text-yellow-500" />
-              4.5 de 5
+              {mockRestaurantInfo.rating}
             </RestaurantCard.Rating>
-
             <Icon icon={faCircle} className="text-neutral-400" fontSize={6} />
-
             <RestaurantCard.Status className="text-other-green-500">
-              fecha às 20:00
+              {mockRestaurantInfo.closingTime}
             </RestaurantCard.Status>
           </RestaurantCard.Info>
 
           <RestaurantCard.Status className="text-xs md:text-base">
-            pedido mínimo: R$ 15,00
+            {mockRestaurantInfo.minimumOrder}
           </RestaurantCard.Status>
-        </div>
-      </header>
+        </RestaurantPage.Info>
+      </RestaurantPage.Header>
 
-      <div className="container-fluid py-6">
-        <Accordion orientation="vertical" type="single" collapsible>
-          {Array.from({ length: 10 }).map((_, index) => (
-            <AccordionItem value={randomUUID()} key={index}>
-              <AccordionHeader>
-                <AccordionTrigger>
-                  <span className="flex flex-col">
-                    <p className="flex gap-1 truncate text-base font-bold text-neutral-900">
-                      Niguiris
-                      <Image
-                        src="/assets/icons/badge-dolar.svg"
-                        alt=""
-                        width={24}
-                        height={24}
-                      />
-                    </p>
-                    <p className="text-left text-xs text-neutral-500 md:text-sm">
-                      um prato super refrescante de peixe fatiado e marinado com
-                      limão
-                    </p>
-                  </span>
-                </AccordionTrigger>
-              </AccordionHeader>
-
-              <AccordionContent className="flex flex-col gap-6 py-4">
-                <Link
-                  href={`/restaurants/${randomUUID()}/products/${randomUUID()}`}
-                  className="xs:gap-4 focus-visible:border-ring flex justify-between gap-2 px-6 outline-0 focus-visible:ring-[2px] focus-visible:ring-purple-400/50 md:px-6"
-                >
-                  <span className="flex flex-1 flex-col items-start">
-                    <p className="flex items-center gap-1 truncate text-sm font-semibold text-neutral-900">
-                      Califórnia
-                      <span className="max-w-4 text-base md:max-w-6 md:text-xl">
-                        <Image
-                          src="/assets/icons/vegetarian.svg"
-                          alt=""
-                          width={24}
-                          height={24}
-                        />
-                      </span>
-                    </p>
-                    <p className="line-clamp-2 text-left text-xs text-neutral-600 md:text-sm">
-                      Kani, pepino e maçã ou manga Kani, pepino e maçã ou manga
-                      Kani, pepino e maçã ou manga Kani, pepino e maçã ou manga
-                      Kani, pepino e maçã ou manga Kani, pepino e maçã ou manga
-                    </p>
-                  </span>
-                  <span className="flex flex-col items-end">
-                    <span className="text-xs font-bold text-neutral-500 line-through">
-                      R$ 17,00
-                    </span>
-                    <span className="text-other-green-500 inline-flex gap-[2px] text-sm font-bold">
-                      <Image
-                        src="/assets/icons/badge-dolar.svg"
-                        alt=""
-                        width={16}
-                        height={16}
-                      />
-                      R$ 13,99
-                    </span>
-                  </span>
-                </Link>
-
-                <Link
-                  href={`/restaurants/${randomUUID()}/products/${randomUUID()}`}
-                  className="xs:gap-4 flex justify-between gap-2 px-6 outline-purple-400/50 md:px-6"
-                >
-                  <span className="flex flex-1 flex-col items-start">
-                    <p className="flex items-center gap-1 truncate text-sm font-semibold text-neutral-900">
-                      Califórnia
-                      <span className="max-w-4 text-base md:max-w-6 md:text-xl">
-                        <Image
-                          src="/assets/icons/vegetarian.svg"
-                          alt=""
-                          width={24}
-                          height={24}
-                        />
-                      </span>
-                    </p>
-                    <p className="line-clamp-2 text-left text-xs text-neutral-600 md:text-sm">
-                      Kani, pepino e maçã ou manga Kani, pepino e maçã ou manga
-                      Kani, pepino e maçã ou manga Kani, pepino e maçã ou manga
-                      Kani, pepino e maçã ou manga Kani, pepino e maçã ou manga
-                    </p>
-                  </span>
-                  <span className="flex flex-col items-end">
-                    <span className="inline-flex gap-[2px] text-sm font-bold text-purple-500">
-                      R$ 13,99
-                    </span>
-                  </span>
-                </Link>
-
-                <Link
-                  href={`/restaurants/${randomUUID()}/products/${randomUUID()}`}
-                  className="xs:gap-4 flex justify-between gap-2 px-6 outline-purple-400/50 md:px-6"
-                >
-                  <span className="flex flex-1 flex-col items-start">
-                    <p className="flex items-center gap-1 truncate text-sm font-semibold text-neutral-900">
-                      Filadélfia
-                      <span className="max-w-4 text-base md:max-w-6 md:text-xl">
-                        <Image
-                          src="/assets/icons/vegetarian.svg"
-                          alt=""
-                          width={24}
-                          height={24}
-                        />
-                      </span>
-                    </p>
-                    <p className="line-clamp-2 text-left text-xs text-neutral-600 md:text-sm">
-                      Kani, pepino e maçã ou manga Kani, pepino e maçã ou manga
-                    </p>
-                  </span>
-                  <span className="flex flex-col items-end">
-                    <span className="inline-flex gap-[2px] text-sm font-bold text-purple-500">
-                      R$ 13,99
-                    </span>
-                  </span>
-                </Link>
-
-                <Link
-                  href={`/restaurants/${randomUUID()}/products/${randomUUID()}`}
-                  className="xs:gap-4 flex justify-between gap-2 px-6 outline-purple-400/50 md:px-6"
-                >
-                  <span className="flex flex-1 flex-col items-start">
-                    <p className="flex items-center gap-1 truncate text-sm font-semibold text-neutral-900">
-                      Filadélfia
-                      <span className="max-w-4 text-base md:max-w-6 md:text-xl">
-                        <Image
-                          src="/assets/icons/vegetarian.svg"
-                          alt=""
-                          width={24}
-                          height={24}
-                        />
-                      </span>
-                    </p>
-                    <p className="line-clamp-2 text-left text-xs text-neutral-600 md:text-sm">
-                      Kani, pepino e maçã ou manga Kani, pepino e maçã ou manga
-                    </p>
-                  </span>
-                  <span className="flex flex-col items-end">
-                    <span className="inline-flex gap-[2px] text-sm font-bold text-purple-500">
-                      R$ 13,99
-                    </span>
-                  </span>
-                </Link>
-
-                <Link
-                  href={`/restaurants/${randomUUID()}/products/${randomUUID()}`}
-                  className="xs:gap-4 flex justify-between gap-2 px-6 outline-purple-400/50 md:px-6"
-                >
-                  <span className="flex flex-1 flex-col items-start">
-                    <p className="flex items-center gap-1 truncate text-sm font-semibold text-neutral-900">
-                      Filadélfia
-                      <span className="max-w-4 text-base md:max-w-6 md:text-xl">
-                        <Image
-                          src="/assets/icons/vegetarian.svg"
-                          alt=""
-                          width={24}
-                          height={24}
-                        />
-                      </span>
-                    </p>
-                    <p className="line-clamp-2 text-left text-xs text-neutral-600 md:text-sm">
-                      Kani, pepino e maçã ou manga Kani, pepino e maçã ou manga
-                    </p>
-                  </span>
-                  <span className="flex flex-col items-end">
-                    <span className="inline-flex gap-[2px] text-xs font-bold text-neutral-500">
-                      a partir de
-                    </span>
-                    <span className="inline-flex gap-[2px] text-sm font-bold text-purple-500">
-                      R$ 13,99
-                    </span>
-                  </span>
-                </Link>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
-    </section>
+      <RestaurantPageMenu categories={mockCategories} />
+    </RestaurantPage.Root>
   );
 }

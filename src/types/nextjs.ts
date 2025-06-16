@@ -1,0 +1,1 @@
+export type NextJsSearchParams = Record<string, string | string[] | undefined>;

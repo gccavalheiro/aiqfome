@@ -1,9 +1,16 @@
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 import type { Metadata } from "next";
+
 import "../globals.css";
 
-import { Layout } from "@/components/layout";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { Header } from "@/components/header";
+import { Logo } from "@/components/logo";
+import { DeliveryLocation } from "@/components/delivery-location";
+import { Search } from "@/components/search";
+import { Icon } from "@/components/ui/icon";
+import { Footer } from "@/components/footer";
 config.autoAddCss = false;
 
 export const metadata: Metadata = {
@@ -34,5 +41,42 @@ export default function HomeLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <Layout>{children}</Layout>;
+  return (
+    <div className="relative text-neutral-500">
+      <Header.Root>
+        <Header.Container>
+          <Header.Content>
+            <Header.Logo>
+              <Logo />
+            </Header.Logo>
+            <Header.Location>
+              <DeliveryLocation />
+            </Header.Location>
+            <Header.Search className="hidden md:block">
+              <Search />
+            </Header.Search>
+            <Header.User>
+              <Icon icon={faUser} size={20} />
+            </Header.User>
+          </Header.Content>
+          <Header.Search className="md:hidden">
+            <Search />
+          </Header.Search>
+        </Header.Container>
+      </Header.Root>
+
+      <main className="min-h-[calc(100dvh-6.25rem)] pt-[8.25rem] md:pt-[4.75rem]">
+        {children}
+      </main>
+
+      <Footer.Root>
+        <Footer.Container>
+          <Footer.Location>feito com 💜 em maringá-PR</Footer.Location>
+          <Footer.Copyright>
+            aiqfome.com © 2007-2023 aiqfome LTDA . CNPJ: 09.186.786/0001-58
+          </Footer.Copyright>
+        </Footer.Container>
+      </Footer.Root>
+    </div>
+  );
 }

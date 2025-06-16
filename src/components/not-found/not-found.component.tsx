@@ -30,7 +30,9 @@ type NotFoundContentProps = React.HTMLAttributes<HTMLDivElement>;
 function NotFoundContent(props: NotFoundContentProps) {
   const { className, ...rest } = props;
 
-  return <div className={cn("flex flex-col", className)} {...rest} />;
+  return (
+    <div className={cn("flex flex-col items-center", className)} {...rest} />
+  );
 }
 
 type NotFoundTitleProps = React.HTMLAttributes<HTMLHeadingElement>;

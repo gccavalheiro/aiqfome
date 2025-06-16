@@ -14,36 +14,31 @@ export function Search() {
   const query = searchParams?.get("q") ?? "";
   const hasQuery = !!searchParams?.has("q");
 
-  function handleValueChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const value = event.target.value;
-
-    router.push(`/?q=${encodeURIComponent(value)}`, {
-      scroll: false,
-    });
-  }
-
   const handleSearch = React.useCallback(
     (event: React.FormEvent) => {
       event.preventDefault();
+      const value = inputRef.current?.value.trim() || "";
 
-      if (query.trim()) {
-        router.push(`/?q=${encodeURIComponent(query)}`);
-      }
+      router.push(`/?q=${encodeURIComponent(value)}`);
     },
-    [query, router],
+    [router],
   );
 
   function handleClearSearch() {
+    if (!inputRef.current) return;
+
+    inputRef.current.value = "";
+
     router.push("/", {
       scroll: false,
     });
   }
 
   React.useEffect(() => {
-    if (hasQuery) {
-      inputRef.current?.focus();
+    if (inputRef.current) {
+      inputRef.current.value = query;
     }
-  }, [hasQuery]);
+  }, [query]);
 
   return (
     <form
@@ -62,13 +57,12 @@ export function Search() {
       <Input
         type="text"
         placeholder="busque pela loja ou culinária"
-        value={query}
         ref={inputRef}
-        onChange={handleValueChange}
+        autoFocus={hasQuery}
         className="h-10 w-full text-neutral-500 outline-none placeholder:font-semibold placeholder:text-neutral-500"
       />
 
-      {query && (
+      {hasQuery && (
         <Icon
           icon={faCircleXmark}
           className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 cursor-pointer text-purple-400"

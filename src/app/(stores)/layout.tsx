@@ -2,10 +2,8 @@ import { DeliveryLocation } from "@/components/delivery-location";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Logo } from "@/components/logo";
-import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import Link from "next/link";
 import { ReactNode } from "react";
 
 interface StoresLayoutProps {
@@ -39,16 +37,7 @@ export default function StoresLayout({ children }: StoresLayoutProps) {
       <Footer.Root>
         <Footer.Container>
           <Footer.Location>feito com 💜 em maringá-PR</Footer.Location>
-          <Button
-            className="ml-auto w-full min-w-[17rem] lg:hidden"
-            size="lg"
-            asChild
-          >
-            <Link href={`/checkouts/4d29fb5c-5a61-4b9c-b6ed-3ec4d993d98b`}>
-              ver ticket
-            </Link>
-          </Button>
-          <Footer.Copyright className="hidden lg:block">
+          <Footer.Copyright>
             aiqfome.com © 2007-2023 aiqfome LTDA . CNPJ: 09.186.786/0001-58
           </Footer.Copyright>
         </Footer.Container>

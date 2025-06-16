@@ -1,9 +1,16 @@
 import { Hero } from "@/components/hero";
 import { RestaurantsPage } from "@/pages/restaurants";
-import { data } from "@/utils/data";
+import { NextJsSearchParams } from "@/types/nextjs";
 import Image from "next/image";
 
-export default async function Home() {
+interface HomePageProps {
+  searchParams: NextJsSearchParams;
+}
+
+export default async function Home(props: HomePageProps) {
+  const { searchParams } = props;
+  const query = ((await searchParams)?.q || "") as string;
+
   return (
     <div>
       <Hero.Root>
@@ -14,7 +21,7 @@ export default async function Home() {
           height={400}
         />
       </Hero.Root>
-      <RestaurantsPage data={data} />
+      <RestaurantsPage query={query} />
     </div>
   );
 }
