@@ -2,22 +2,46 @@ import { Hero } from "@/components/hero";
 import { ProductPage } from "@/components/product-page";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
 import { RadioGroup } from "@/components/ui/radio-group";
 
 import { Separator } from "@/components/ui/separator";
 import { accompaniments, drinks, extras, utensils } from "@/utils/restaurant";
-import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
+import { getProductByIdService } from "@/services/get-product-by-id-service";
+import { getRestaurantByIdService } from "@/services/get-restaurants-service";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductPageAccompanimentItem } from "./components/product-page-accompaniment-item.component";
 import { ProductPageDrinkItem } from "./components/product-page-drink-item.component";
 import { ProductPageExtraItem } from "./components/product-page-extra-item.component";
+import { ProductPageQuantityButtons } from "./components/product-page-quantity-buttons.component";
 import { ProductPageUtensilItem } from "./components/product-page-utensil-item.component";
+import { ProductPagePrice } from "./components/product-page-price.component";
+import { ProductPageSizes } from "./components/product-page-sizes.component";
 
-export default function Product() {
+interface ProductProps {
+  params: {
+    restaurantId: string;
+    productId: string;
+  };
+}
+
+export default async function Product(props: ProductProps) {
+  const { params } = props;
+
+  const { restaurantId, productId } = await params;
+
+  const restaurant = await getRestaurantByIdService(restaurantId);
+
+  const product = await getProductByIdService({ productId, restaurantId });
+
+  if (!restaurant || !product) {
+    return <div>Produto não encontrado</div>;
+  }
+
+  const selectedSize = product.sizes[0];
+  const currentPrice = selectedSize.price || selectedSize.originalPrice;
+
   return (
     <ProductPage.Root>
       <Hero.Root>
@@ -26,7 +50,7 @@ export default function Product() {
           alt="Hero"
           width={1200}
           height={400}
-          className="max-h-[400px] w-full object-cover"
+          className="h-auto max-h-[400px] w-full object-cover"
         />
       </Hero.Root>
 
@@ -34,16 +58,16 @@ export default function Product() {
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <h1 className="text-xl font-bold text-neutral-700">
-              Ceviche de salmão
+              {product.name}
             </h1>
             <p className="text-sm font-extrabold text-neutral-500">
               a partir de{" "}
               <span className="text-lg font-extrabold text-purple-500">
-                R$ 19,90
+                R$ {currentPrice.toFixed(2)}
               </span>
             </p>
             <p className="text-sm font-semibold text-neutral-500">
-              salmão temperado com limão, cebola e pimenta
+              {product.description}
             </p>
           </div>
 
@@ -52,27 +76,14 @@ export default function Product() {
               <h2 className="text-base font-bold text-neutral-700">quantos?</h2>
               <p className="text-sm font-semibold text-neutral-500">
                 total{" "}
-                <span className="font-bold text-neutral-700">R$ 19,90</span>
+                <span className="font-bold text-neutral-700">
+                  <ProductPagePrice product={product} />
+                </span>
               </p>
             </div>
             <div className="flex flex-1 flex-col items-end">
               <div className="flex w-fit items-center justify-between gap-2">
-                <Button
-                  disabled
-                  variant="ghost"
-                  className="hover:text-neutral-0 h-8 min-h-8 w-8 max-w-8 min-w-8 rounded-full border border-transparent p-0 text-teal-400 hover:border-teal-400 hover:bg-teal-400"
-                >
-                  <Icon icon={faTrashAlt} size={20} />
-                </Button>
-                <span className="xs:min-w-8 min-w-5 flex-1 text-center text-sm font-bold text-neutral-700">
-                  99
-                </span>
-                <Button
-                  variant="ghost"
-                  className="hover:text-neutral-0 h-8 min-h-8 w-8 max-w-8 min-w-8 rounded-full border border-teal-400 p-0 text-teal-400 hover:bg-teal-400"
-                >
-                  <Icon icon={faPlus} size={14} />
-                </Button>
+                <ProductPageQuantityButtons product={product} />
               </div>
             </div>
           </ProductPage.Quantity>
@@ -83,59 +94,24 @@ export default function Product() {
         <Separator className="bg-neutral-100 data-[orientation=horizontal]:h-1" />
       </div>
 
-      <ProductPage.Section>
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col">
-            <h2 className="text-base font-bold text-neutral-900">
-              qual o tamanho?
-            </h2>
-            <small className="text-xs font-bold text-neutral-500">
-              escolha 1
-            </small>
+      {product.sizes.length > 0 && (
+        <ProductPage.Section>
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col">
+              <h2 className="text-base font-bold text-neutral-900">
+                qual o tamanho?
+              </h2>
+              <small className="text-xs font-bold text-neutral-500">
+                escolha 1
+              </small>
+            </div>
+
+            <Badge>obrigatório</Badge>
           </div>
 
-          <Badge>obrigatório</Badge>
-        </div>
-
-        <RadioGroup.Root defaultValue="none">
-          <label
-            htmlFor="medium"
-            className="flex items-center justify-between rounded-sm p-2 hover:bg-neutral-50"
-          >
-            <div className="flex items-center gap-2">
-              <RadioGroup.Item value="medium" id="medium" />
-              <Image
-                src="/assets/icons/badge-dolar.svg"
-                alt=""
-                width={20}
-                height={20}
-              />
-              <span className="text-sm font-normal">médio</span>
-            </div>
-            <div className="flex flex-wrap items-baseline gap-1 text-right">
-              <span className="text-xs font-bold text-neutral-500">
-                de R$ 22,90 por
-              </span>
-              <span className="text-other-green-500 text-sm font-bold">
-                R$ 19,90
-              </span>
-            </div>
-          </label>
-
-          <label
-            htmlFor="large"
-            className="flex items-center justify-between rounded-sm p-2 hover:bg-neutral-50"
-          >
-            <div className="flex items-center gap-2">
-              <RadioGroup.Item value="large" id="large" />
-              <span className="text-sm font-normal">grande</span>
-            </div>
-            <div className="flex flex-wrap items-baseline gap-1 text-right">
-              <p className="text-sm font-bold text-purple-500">R$ 28,90</p>
-            </div>
-          </label>
-        </RadioGroup.Root>
-      </ProductPage.Section>
+          <ProductPageSizes product={product} />
+        </ProductPage.Section>
+      )}
 
       <div className="container-fluid">
         <Separator className="bg-neutral-100 data-[orientation=horizontal]:h-1" />
@@ -230,7 +206,7 @@ export default function Product() {
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             <h2 className="text-base font-bold text-neutral-900">
-              acompanhamentos
+              mais alguma coisa?
             </h2>
             <small className="text-xs font-bold text-neutral-500">
               escolha até 2

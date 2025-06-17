@@ -73,6 +73,7 @@ export function RestaurantItem(props: RestaurantItemProps) {
                       alt="delivery fee"
                       width={24}
                       height={24}
+                      className="h-auto w-auto"
                     />
                     R${restaurant.deliveryFee.toFixed(2)}
                   </RestaurantCard.Fee>

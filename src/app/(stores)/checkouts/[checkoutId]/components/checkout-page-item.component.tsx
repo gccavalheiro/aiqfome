@@ -1,6 +1,7 @@
 import { CheckoutItem } from "@/components/checkout/checkout-item";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { CheckoutItemProps } from "@/utils/restaurant";
 import {
   faPencilAlt,
   faPlus,
@@ -8,15 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
-interface ItemProps {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
-
 interface CheckoutPageItemProps {
-  item: ItemProps;
+  item: CheckoutItemProps;
 }
 
 export function CheckoutPageItem(props: CheckoutPageItemProps) {
@@ -26,7 +20,7 @@ export function CheckoutPageItem(props: CheckoutPageItemProps) {
   return (
     <CheckoutItem.Root key={id}>
       <CheckoutItem.EditButton asChild>
-        <Link href="'/'">
+        <Link href={`/restaurants/${123}/products/${id}`}>
           <Icon icon={faPencilAlt} size={12} />
           editar
         </Link>

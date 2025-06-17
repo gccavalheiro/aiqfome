@@ -5,11 +5,12 @@ import Image from "next/image";
 import { RestaurantPageMenuItem } from "./restaurant-page-menu-item.component";
 
 interface RestaurantPageMenuProps extends React.HTMLAttributes<HTMLDivElement> {
+  restaurantId: string;
   categories: CategoryProps[];
 }
 
-export function RestaurantPageMenu(props: RestaurantPageMenuProps) {
-  const { categories, className, ...rest } = props;
+export async function RestaurantPageMenu(props: RestaurantPageMenuProps) {
+  const { categories, restaurantId, className, ...rest } = props;
 
   return (
     <div className={cn("container-fluid py-6", className)} {...rest}>
@@ -27,6 +28,7 @@ export function RestaurantPageMenu(props: RestaurantPageMenuProps) {
                         alt=""
                         width={24}
                         height={24}
+                        className="h-auto w-auto"
                       />
                     )}
                   </p>
@@ -39,7 +41,7 @@ export function RestaurantPageMenu(props: RestaurantPageMenuProps) {
 
             <Accordion.Content className="flex flex-col py-4">
               {category.items.map((item) => (
-                <RestaurantPageMenuItem key={item.id} item={item} />
+                <RestaurantPageMenuItem key={item.id} item={item} restaurantId={restaurantId} />
               ))}
             </Accordion.Content>
           </Accordion.Item>

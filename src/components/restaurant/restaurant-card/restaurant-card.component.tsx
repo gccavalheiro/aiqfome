@@ -99,7 +99,7 @@ function RestaurantCardFee(props: RestaurantCardInfoProps) {
   return (
     <div
       className={cn(
-        "flex items-center gap-1 font-bold text-purple-500",
+        "flex items-center gap-1.5 font-bold text-purple-500",
         className,
       )}
       {...rest}

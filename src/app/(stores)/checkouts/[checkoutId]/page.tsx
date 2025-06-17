@@ -1,36 +1,13 @@
+import { NotFound } from "@/components/not-found";
 import { RestaurantCard } from "@/components/restaurant/restaurant-card";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { getCheckoutByIdService } from "@/services/get-checkout-by-id-service";
+import { getRestaurantByIdService } from "@/services/get-restaurants-service";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
 import { CheckoutPageItem } from "./components/checkout-page-item.component";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
-
-const checkoutItems = [
-  {
-    id: "1",
-    name: "Califórnia",
-    price: 13.99,
-    quantity: 0,
-  },
-  {
-    id: "2",
-    name: "Temaki Filadélfia",
-    price: 14.0,
-    quantity: 0,
-  },
-  {
-    id: "3",
-    name: "Temaki Mix",
-    price: 22.0,
-    quantity: 0,
-  },
-  {
-    id: "4",
-    name: "Coca-cola lata",
-    price: 10.0,
-    quantity: 0,
-  },
-];
 
 interface CheckoutPageProps {
   params: {
@@ -38,8 +15,34 @@ interface CheckoutPageProps {
   };
 }
 
-export default function Checkout(props: CheckoutPageProps) {
-  const { checkoutId } = props.params;
+export default async function Checkout(props: CheckoutPageProps) {
+  const { params } = props;
+  const { checkoutId } = await params;
+
+  const checkout = await getCheckoutByIdService(checkoutId);
+
+  if (!checkout) {
+    return (
+      <div className="container-default">
+        <NotFound.Root>
+          <NotFound.Icon icon={faCartShopping} className="text-4xl" />
+          <NotFound.Content>
+            <NotFound.Title>Checkout não encontrado</NotFound.Title>
+            <Button asChild className="mt-3">
+              <Link href="/">Voltar para início</Link>
+            </Button>
+          </NotFound.Content>
+        </NotFound.Root>
+      </div>
+    );
+  }
+
+  const restaurant = await getRestaurantByIdService(checkout.restaurantId);
+
+  const calculateTotal = checkout.items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0,
+  );
 
   return (
     <div className="relative">
@@ -51,7 +54,9 @@ export default function Checkout(props: CheckoutPageProps) {
             </Breadcrumb.Item>
             <Breadcrumb.Separator />
             <Breadcrumb.Item>
-              <Breadcrumb.Link href="/components">Components</Breadcrumb.Link>
+              <Breadcrumb.Link href={`/restaurants/${restaurant?.id}`}>
+                {restaurant?.name}
+              </Breadcrumb.Link>
             </Breadcrumb.Item>
             <Breadcrumb.Separator />
             <Breadcrumb.Item>
@@ -64,7 +69,7 @@ export default function Checkout(props: CheckoutPageProps) {
           <RestaurantCard.Image className="max-w-8 min-w-8 rounded-sm md:max-w-[4.5rem]">
             <Image
               src="/assets/images/logo-loja-01.png"
-              alt=""
+              alt={restaurant?.name ?? "Logo do restaurante"}
               width={100}
               height={100}
               className="object-cover"
@@ -76,12 +81,12 @@ export default function Checkout(props: CheckoutPageProps) {
               seus itens em
             </h5>
             <h1 className="text-base font-bold text-neutral-900 md:text-3xl">
-              Matsuri Concept
+              {restaurant?.name}
             </h1>
           </div>
         </div>
 
-        {checkoutItems.map((item) => (
+        {checkout?.items.map((item) => (
           <CheckoutPageItem key={item.id} item={item} />
         ))}
       </div>
@@ -94,14 +99,12 @@ export default function Checkout(props: CheckoutPageProps) {
                 subtotal
               </h6>
               <h3 className="text-xl font-extrabold text-purple-500 md:text-2xl">
-                R$ 100,00
+                R$ {calculateTotal.toFixed(2)}
               </h3>
             </div>
 
             <Button size="lg" className="xs:w-fit w-full" asChild>
-              <Link href={`/checkouts/4d29fb5c-5a61-4b9c-b6ed-3ec4d993d98b`}>
-                ir para pagamento
-              </Link>
+              <Link href="#">ir para pagamento</Link>
             </Button>
           </div>
         </div>

@@ -9,6 +9,7 @@ export function Logo() {
         alt="Aiqfome Logo"
         width={32}
         height={32}
+        className="w-auto h-auto"
       />
     </Link>
   );

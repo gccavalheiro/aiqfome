@@ -25,8 +25,6 @@ export function ProductPageAccompanimentItem(
     return selectedOptions.length >= 2 && !selectedOptions.includes(id);
   };
 
-  console.log(selectedOptions);
-
   return (
     <div className="flex-1" key={id}>
       <label

@@ -1,6 +1,7 @@
 import { RestaurantCard } from "@/components/restaurant/restaurant-card";
 import { RestaurantPage } from "@/components/restaurant/restaurant-page/restaurant-page.component";
 import { Icon } from "@/components/ui/icon";
+import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import {
   faChevronRight,
   faCircle,
@@ -8,120 +9,58 @@ import {
   faMotorcycle,
   faShareNodes,
   faStar,
+  faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 
+import { NotFound } from "@/components/not-found";
+import { getRestaurantByIdService } from "@/services/get-restaurants-service";
 import Image from "next/image";
-import { RestaurantPageMenu } from "./products/components/restaurant-page-menu.component";
 import Link from "next/link";
+import { RestaurantPageMenu } from "./products/components/restaurant-page-menu.component";
 
-const mockCategories = [
-  {
-    id: "category-1",
-    name: "Niguiris",
-    description: "Peixe fresco fatiado sobre arroz temperado com vinagre",
-    items: [
-      {
-        id: "item-1-1",
-        name: "Niguiri Salmão",
-        description: "Salmão fresco sobre arroz temperado",
-        price: "R$ 24,90",
-        originalPrice: "R$ 29,90",
-        isVegetarian: false,
-        isPromotion: true,
-      },
-      {
-        id: "item-1-2",
-        name: "Niguiri Atum",
-        description: "Atum fresco sobre arroz temperado",
-        price: "R$ 22,90",
-        isVegetarian: false,
-        isPromotion: false,
-      },
-      {
-        id: "item-1-3",
-        name: "Niguiri Vegetariano",
-        description: "Abacate, pepino e cenoura sobre arroz temperado",
-        price: "R$ 19,90",
-        isVegetarian: true,
-        isPromotion: false,
-      },
-    ],
-  },
-  {
-    id: "category-2",
-    name: "Temakis",
-    description:
-      "Cones de alga nori recheados com arroz e ingredientes frescos",
-    items: [
-      {
-        id: "item-2-1",
-        name: "Temaki Salmão",
-        description: "Salmão, cream cheese, cebolinha e molho tarê",
-        price: "R$ 28,90",
-        isVegetarian: false,
-        isPromotion: false,
-      },
-      {
-        id: "item-2-2",
-        name: "Temaki Vegetariano",
-        description: "Cenoura, pepino, abacate e cream cheese",
-        price: "R$ 24,90",
-        isVegetarian: true,
-        isPromotion: false,
-      },
-    ],
-  },
-  {
-    id: "category-3",
-    name: "Hot Rolls",
-    description: "Sushis empanados e fritos com molhos especiais",
-    items: [
-      {
-        id: "item-3-1",
-        name: "Hot Philadelphia",
-        description: "Salmão, cream cheese e cebolinha empanados",
-        price: "R$ 32,90",
-        isVegetarian: false,
-      },
-      {
-        id: "item-3-2",
-        name: "Hot California",
-        description: "Kani, cream cheese e cebolinha empanados",
-        price: "R$ 29,90",
-        originalPrice: "R$ 34,90",
-        isVegetarian: false,
-        isPromotion: true,
-      },
-    ],
-  },
-];
+interface RestaurantProps {
+  params: {
+    restaurantId: string;
+  };
+}
 
-const mockRestaurantInfo = {
-  deliveryFee: "R$ 5,00",
-  deliveryTime: "30-45 min",
-  distance: "2,5 km",
-  freeDeliveryOver: "Frete grátis acima de R$ 50,00",
-  rating: "4.8",
-  closingTime: "Fecha às 23:00",
-  minimumOrder: "Pedido mínimo R$ 20,00",
-};
+export default async function Restaurant(props: RestaurantProps) {
+  const { params } = props;
 
-export default function Restaurant() {
+  const { restaurantId } = await params;
+
+  const restaurant = await getRestaurantByIdService(restaurantId);
+
+  if (!restaurant) {
+    return (
+      <div className="container-default">
+        <NotFound.Root>
+          <NotFound.Icon icon={faUtensils} className="text-4xl" />
+          <NotFound.Content>
+            <NotFound.Title>Restaurante não encontrado</NotFound.Title>
+            <NotFound.Description>
+              Tente buscar por outro nome
+            </NotFound.Description>
+          </NotFound.Content>
+        </NotFound.Root>
+      </div>
+    );
+  }
+
   return (
     <RestaurantPage.Root>
       <RestaurantPage.Header>
         <RestaurantPage.Display>
           <RestaurantCard.Image className="max-w-8 min-w-8 rounded-sm md:max-w-[4.5rem]">
             <Image
-              src="/assets/images/logo-loja-01.png"
-              alt="Matsuri Concept Logo"
+              src={restaurant.logoUrl}
+              alt={restaurant.name}
               width={100}
               height={100}
               className="object-cover"
             />
           </RestaurantCard.Image>
-          <RestaurantPage.Title>Matsuri Concept</RestaurantPage.Title>
+          <RestaurantPage.Title>{restaurant.name}</RestaurantPage.Title>
         </RestaurantPage.Display>
 
         <RestaurantPage.Actions>
@@ -132,16 +71,21 @@ export default function Restaurant() {
                 className="rotate-180 text-xl text-purple-500 md:text-3xl"
               />
             </button>
-            <button className="cursor-pointer">
-              <Icon
-                icon={faHeart}
-                className="text-xl text-purple-500 md:text-3xl"
-              />
-              <Icon
-                icon={faHeartRegular}
-                className="text-xl text-purple-500 md:text-3xl"
-              />
-            </button>
+            {restaurant.isFavorite ? (
+              <button className="cursor-pointer">
+                <Icon
+                  icon={faHeartRegular}
+                  className="text-xl text-purple-500 md:text-3xl"
+                />
+              </button>
+            ) : (
+              <button className="cursor-pointer">
+                <Icon
+                  icon={faHeart}
+                  className="text-xl text-purple-500 md:text-3xl"
+                />
+              </button>
+            )}
           </div>
           <Link
             href="/"
@@ -155,40 +99,44 @@ export default function Restaurant() {
           <RestaurantCard.Info className="text-xs md:text-base">
             <RestaurantCard.Fee className="text-sm md:text-lg">
               <Icon icon={faMotorcycle} />
-              {mockRestaurantInfo.deliveryFee}
+              R$ {restaurant.deliveryFee}
             </RestaurantCard.Fee>
             <Icon icon={faCircle} className="text-neutral-400" fontSize={6} />
             <RestaurantCard.Status>
-              {mockRestaurantInfo.deliveryTime}
+              {restaurant.deliveryTime}
             </RestaurantCard.Status>
             <Icon icon={faCircle} className="text-neutral-400" fontSize={6} />
             <RestaurantCard.Status>
-              {mockRestaurantInfo.distance}
+              {restaurant.distance}km
             </RestaurantCard.Status>
           </RestaurantCard.Info>
 
           <RestaurantCard.Delivery className="w-fit rounded-md bg-teal-50 px-4 py-2 text-xs md:text-base">
-            {mockRestaurantInfo.freeDeliveryOver}
+            entrega grátis acima de R${" "}
+            {restaurant.freeDeliveryMinOrder?.toFixed(2)}
           </RestaurantCard.Delivery>
 
           <RestaurantCard.Info className="text-xs md:text-base">
             <RestaurantCard.Rating>
               <Icon icon={faStar} className="text-yellow-500" />
-              {mockRestaurantInfo.rating}
+              {restaurant.rating}
             </RestaurantCard.Rating>
             <Icon icon={faCircle} className="text-neutral-400" fontSize={6} />
             <RestaurantCard.Status className="text-other-green-500">
-              {mockRestaurantInfo.closingTime}
+              fecha às {restaurant.closingTime}
             </RestaurantCard.Status>
           </RestaurantCard.Info>
 
           <RestaurantCard.Status className="text-xs md:text-base">
-            {mockRestaurantInfo.minimumOrder}
+            pedido mínimo: R$ {restaurant.minimumOrder.toFixed(2)}
           </RestaurantCard.Status>
         </RestaurantPage.Info>
       </RestaurantPage.Header>
 
-      <RestaurantPageMenu categories={mockCategories} />
+      <RestaurantPageMenu
+        categories={restaurant.menu ?? []}
+        restaurantId={restaurantId}
+      />
     </RestaurantPage.Root>
   );
 }
