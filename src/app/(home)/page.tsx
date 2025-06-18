@@ -1,10 +1,10 @@
 import { Hero } from "@/components/hero";
-import { RestaurantsPage } from "@/pages/restaurants";
-import { NextJsSearchParams } from "@/types/nextjs";
+
 import Image from "next/image";
+import { RestaurantsPage } from "./components/restaurants.component";
 
 interface HomePageProps {
-  searchParams: NextJsSearchParams;
+  searchParams: Promise<{ q?: string }>;
 }
 
 export default async function Home(props: HomePageProps) {

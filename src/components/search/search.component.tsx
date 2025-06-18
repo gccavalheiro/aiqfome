@@ -3,11 +3,11 @@ import { cn } from "@/lib/utils";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 import { Icon } from "../ui/icon";
 import { Input } from "../ui/input";
 
-export function Search() {
+function SearchInput() {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -61,7 +61,6 @@ export function Search() {
         autoFocus={hasQuery}
         className="h-10 w-full text-neutral-500 outline-none placeholder:font-semibold placeholder:text-neutral-500"
       />
-
       {hasQuery && (
         <Icon
           icon={faCircleXmark}
@@ -71,5 +70,13 @@ export function Search() {
         />
       )}
     </form>
+  );
+}
+
+export function Search() {
+  return (
+    <Suspense>
+      <SearchInput />
+    </Suspense>
   );
 }

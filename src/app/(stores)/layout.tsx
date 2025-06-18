@@ -4,7 +4,6 @@ import { Header } from "@/components/header";
 import { Logo } from "@/components/logo";
 import { Icon } from "@/components/ui/icon";
 import { CheckoutProvider } from "@/contexts/checkout.context";
-import { getRestaurantsService } from "@/services/get-restaurants-service";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { ReactNode } from "react";
 
@@ -14,10 +13,9 @@ interface RestaurantLayoutProps {
 
 export default async function RestaurantLayout(props: RestaurantLayoutProps) {
   const { children } = props;
-  const restaurantData = await getRestaurantsService();
 
   return (
-    <CheckoutProvider restaurantData={restaurantData}>
+    <CheckoutProvider>
       <div className="relative text-neutral-500">
         <Header.Root>
           <Header.Container>
