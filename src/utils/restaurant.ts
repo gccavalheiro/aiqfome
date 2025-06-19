@@ -556,7 +556,7 @@ const subway: RestaurantProps = {
 const mcdonalds: RestaurantProps = {
   id: "7c9e6679-7425-40de-944b-e07fc1f90ae7",
   name: "McDonald's",
-  logoUrl: "/assets/images/logo-loja-03.png",
+  logoUrl: "/assets/images/logo-loja-04.png",
   rating: 4.3,
   deliveryFee: 5.99,
   deliveryTime: "hoje, 20-30 min",
@@ -630,7 +630,7 @@ const mcdonalds: RestaurantProps = {
 const burgerKing: RestaurantProps = {
   id: "8d9e6679-7425-40de-944b-e07fc1f90ae8",
   name: "Burger King",
-  logoUrl: "/assets/images/logo-loja-04.png",
+  logoUrl: "/assets/images/logo-loja-03.png",
   rating: 4.4,
   deliveryFee: 4.99,
   deliveryTime: "hoje, 25-35 min",
@@ -704,7 +704,7 @@ const burgerKing: RestaurantProps = {
 const girafas: RestaurantProps = {
   id: "9e0f6679-7425-40de-944b-e07fc1f90ae9",
   name: "Giraffas",
-  logoUrl: "/assets/images/logo-loja-05.png",
+  logoUrl: "/assets/images/logo-loja-08.png",
   rating: 4.2,
   deliveryFee: 3.99,
   deliveryTime: "hoje, 30-40 min",
@@ -778,7 +778,7 @@ const girafas: RestaurantProps = {
 const outback: RestaurantProps = {
   id: "0f1a6679-7425-40de-944b-e07fc1f90af0",
   name: "Outback",
-  logoUrl: "/assets/images/logo-loja-06.png",
+  logoUrl: "/assets/images/logo-loja-07.png",
   rating: 4.7,
   deliveryFee: 8.99,
   deliveryTime: "hoje, 40-50 min",
@@ -852,7 +852,7 @@ const outback: RestaurantProps = {
 const habibs: RestaurantProps = {
   id: "1a2b6679-7425-40de-944b-e07fc1f90af1",
   name: "Habib's",
-  logoUrl: "/assets/images/logo-loja-07.png",
+  logoUrl: "/assets/images/logo-loja-09.png",
   rating: 4.1,
   deliveryFee: 3.99,
   deliveryTime: "hoje, 25-35 min",
@@ -919,7 +919,7 @@ const habibs: RestaurantProps = {
 const chinaBox: RestaurantProps = {
   id: "2b3c6679-7425-40de-944b-e07fc1f90af2",
   name: "China Box",
-  logoUrl: "/assets/images/logo-loja-08.png",
+  logoUrl: "/assets/images/logo-loja-06.png",
   rating: 4.3,
   deliveryFee: 3.99,
   deliveryTime: "hoje, 30-40 min",
@@ -987,7 +987,7 @@ const chinaBox: RestaurantProps = {
 const pizzaHut: RestaurantProps = {
   id: "3c4d6679-7425-40de-944b-e07fc1f90af3",
   name: "Pizza Hut",
-  logoUrl: "/assets/images/logo-loja-09.png",
+  logoUrl: "/assets/images/logo-loja-05.png",
   rating: 4.6,
   deliveryFee: 5.99,
   deliveryTime: "hoje, 35-45 min",
