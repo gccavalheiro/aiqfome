@@ -51,7 +51,8 @@ Seu desafio será prototipar essa funcionalidade em uma aplicação web utilizan
 ## :dart: Missão ##
 Este desafio é focado em desenvolvimento web com React e Next.js, priorizando a experiência do usuário em dispositivos móveis e a fluidez da interface. Esperamos que você demonstre conhecimento em Server Components para otimizar a renderização e o desempenho, além de aplicar conceitos de Design Systems para garantir consistência e escalabilidade da interface. O backend não é necessário — o foco está no front-end web com experiência mobile, utilizando Next.js.
 
-:link: [Link do Figma](www.figma.com/design/mgLRWavLkkZnDTVKOKQPie/-aiqfome--teste-front-end---MOBILE)
+:link: [Link do Figma](www.figma.com/design/mgLRWavLkkZnDTVKOKQPie/-aiqfome--teste-front-end---MOBILE)\
+:link: [Demonstração completa - ao vivo](https://aiqfome-plum.vercel.app)
 
 ## :sparkles: Funcionalidades ##
 
