@@ -40,21 +40,24 @@ export function ProductPageUniqueOptionItem(
 
         <span className="text-sm font-normal">{option.title}</span>
       </div>
-      <div className="flex flex-wrap items-baseline gap-1 text-right">
-        {isPromotion && (
-          <span className="text-xs font-bold text-neutral-500">
-            de R$ {option.price.toFixed(2)} por
-          </span>
-        )}
-        <span
-          className={cn(
-            "text-sm font-bold",
-            isPromotion ? "text-other-green-500" : "text-purple-500",
+
+      {option.price > 0 && (
+        <div className="flex flex-wrap items-baseline gap-1 text-right">
+          {isPromotion && (
+            <span className="text-xs font-bold text-neutral-500">
+              de R$ {option.price.toFixed(2)} por
+            </span>
           )}
-        >
-          R$ {currentPrice.toFixed(2)}
-        </span>
-      </div>
+          <span
+            className={cn(
+              "text-sm font-bold",
+              isPromotion ? "text-other-green-500" : "text-purple-500",
+            )}
+          >
+            R$ {currentPrice.toFixed(2)}
+          </span>
+        </div>
+      )}
     </label>
   );
 }

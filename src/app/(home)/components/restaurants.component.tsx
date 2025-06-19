@@ -45,7 +45,7 @@ export async function RestaurantsPage(props: RestaurantsPageProps) {
               Tente buscar por outro nome
             </NotFound.Description>
             <Button asChild className="mt-3">
-              <Link href="/">Voltar para início</Link>
+              <Link href="/">voltar para início</Link>
             </Button>
           </NotFound.Content>
         </NotFound.Root>

@@ -21,7 +21,7 @@ export function RestaurantItem(props: RestaurantItemProps) {
 
   return (
     <Link
-      href={`/restaurants/${restaurant.slug.toLowerCase()}/${restaurant.id}`}
+      href={`/restaurants/${restaurant.slug.toLowerCase()}`}
       key={restaurant.id}
       title={restaurant.name}
     >
@@ -32,13 +32,14 @@ export function RestaurantItem(props: RestaurantItemProps) {
             alt={restaurant.name}
             width={150}
             height={150}
-            className="h-full w-full object-cover"
+            className={cn(
+              "h-full w-full object-cover",
+              !isOpen && "opacity-50",
+            )}
           />
         </RestaurantCard.Image>
         <RestaurantCard.Content>
-          <RestaurantCard.Title
-            className={cn(`${restaurant.status === "closed" && "opacity-50"}`)}
-          >
+          <RestaurantCard.Title className={cn(!isOpen && "opacity-50")}>
             {restaurant.name}
           </RestaurantCard.Title>
           <RestaurantCard.Info>

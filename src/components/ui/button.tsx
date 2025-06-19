@@ -10,12 +10,14 @@ type ButtonProps = React.ComponentProps<"button"> &
   };
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer rounded-md text-sm font-bold transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-purple-400/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "inline-flex items-center justify-center gap-2 aria-disabled:pointer-events-none aria-disabled:opacity-50 whitespace-nowrap cursor-pointer rounded-md text-sm font-bold transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-purple-400/50 focus-visible:ring-[3px]",
   {
     variants: {
       variant: {
         default: "bg-purple-500 text-neutral-0 hover:bg-purple-700",
         ghost: "disabled:bg-neutral-100 disabled:text-neutral-400",
+        outline:
+          "border border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-neutral-0",
         link: "text-teal-400 underline-offset-4 hover:underline",
       },
       size: {
@@ -40,6 +42,7 @@ function Button(props: ButtonProps) {
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
+      aria-disabled={rest.disabled}
       {...rest}
     />
   );

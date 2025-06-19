@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { ProductUtils } from "@/utils/product";
 import { ProductProps } from "@/utils/restaurant";
 
 import Image from "next/image";
@@ -8,20 +9,22 @@ interface RestaurantPageMenuProps {
   restaurantId: string;
   product: ProductProps;
   slug: string;
+  isPromotion: boolean;
 }
 
 export function RestaurantPageMenuProduct(props: RestaurantPageMenuProps) {
-  const { product, restaurantId, slug } = props;
+  const { product, slug, isPromotion } = props;
   const { id, name, description, isVegetarian, isSpicy } = product;
 
-  const isPromotion = product.discount > 0;
-  const currentPrice = isPromotion
-    ? product.price - product.discount
-    : product.price;
+  const additionalOption = ProductUtils.getAdditionalMainFirstOption(product.additionals);
+
+  const currentPrice = additionalOption
+    ? additionalOption.price - additionalOption.discount
+    : product.price - product.discount;
 
   return (
     <Link
-      href={`/restaurants/${slug}/${restaurantId}/products/${id}`}
+      href={`/restaurants/${slug}/products/${id}`}
       key={id}
       className="xs:gap-4 focus-visible:border-ring flex justify-between gap-2 px-6 py-3 outline-0 hover:bg-neutral-100 focus-visible:ring-[2px] focus-visible:ring-purple-400/50 md:px-6"
     >
@@ -59,7 +62,7 @@ export function RestaurantPageMenuProduct(props: RestaurantPageMenuProps) {
       <span className="flex flex-col items-end">
         {isPromotion && (
           <span className="text-xs font-bold text-neutral-500 line-through">
-            R$ {product.price}
+            R$ {additionalOption?.price.toFixed(2) || product.price.toFixed(2)}
           </span>
         )}
         <span

@@ -15,21 +15,29 @@ export function ProductPageQuantityButtons(
 ) {
   const { product } = props;
 
-  const { getProductById } = useCheckout();
-  const checkoutProduct = getProductById(product.id);
+  const {
+    getCheckoutProductById,
+    addProductToCheckout,
+    decreaseProductQuantity,
+    removeProductFromCheckout,
+  } = useCheckout();
+  const checkoutProduct = getCheckoutProductById(product.id);
 
   const quantity = checkoutProduct?.quantity || 0;
 
   function handleIncrease() {
-    console.log("increase");
+    addProductToCheckout({
+      restaurantId: product.restaurantId,
+      product,
+    });
   }
 
   function handleDecrease() {
-    console.log("decrease");
+    decreaseProductQuantity(product.id);
   }
 
   function handleClear() {
-    console.log("clear");
+    removeProductFromCheckout(product.id);
   }
 
   if (quantity === 0) {

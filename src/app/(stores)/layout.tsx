@@ -34,7 +34,7 @@ export default async function RestaurantLayout(props: RestaurantLayoutProps) {
           </Header.Container>
         </Header.Root>
 
-        <main className="min-h-[calc(100dvh-6.25rem)] pt-[4.75rem]">
+        <main className="min-h-[calc(100dvh-6.25rem)] pt-[4.75rem] flex flex-col">
           {children}
         </main>
 

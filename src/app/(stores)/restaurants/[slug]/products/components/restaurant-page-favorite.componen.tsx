@@ -15,7 +15,6 @@ export function RestaurantPageFavoriteButton(
   const { isFavorite: favorite } = props;
   const [isFavorite, setIsFavorite] = React.useState(favorite);
 
-  console.log(isFavorite);
   function handleFavorite() {
     setIsFavorite(!isFavorite);
   }

@@ -7,22 +7,26 @@ import { Separator } from "@/components/ui/separator";
 
 import { NotFound } from "@/components/not-found";
 import { getProductByIdService } from "@/services/product-service";
-import { getRestaurantByIdService } from "@/services/restaurant-service";
+import { getRestaurantBySlugService } from "@/services/restaurant-service";
 import { ProductAdditionalProps } from "@/utils/restaurant";
 import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 import { ProductPageMultipleOptions } from "./components/multiple-options/product-page-multiple-options.component";
-import { ProductPageUpsellOptions } from "./components/upsell-options/product-page-upsell-options.component";
 import { ProductPageActions } from "./components/product-page-actions.component";
+import { ProductPageNotes } from "./components/product-page-notes.component";
 import { ProductPagePrice } from "./components/product-page-price.component";
 import { ProductPageQuantityButtons } from "./components/product-page-quantity-buttons.component";
+import { ProductPageUniqueOptionItem } from "./components/unique-options/product-page-unique-option-item.component";
 import { ProductPageUniqueOptions } from "./components/unique-options/product-page-unique-options.component";
-import React from "react";
+import { ProductPageUpsellOptions } from "./components/upsell-options/product-page-upsell-options.component";
+import { ProductUtils } from "@/utils/product";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 
 interface ProductProps {
   params: Promise<{
-    restaurantId: string;
+    slug: string;
     productId: string;
   }>;
 }
@@ -30,20 +34,20 @@ interface ProductProps {
 export default async function Product(props: ProductProps) {
   const { params } = props;
 
-  const { restaurantId, productId } = await params;
+  const { slug, productId } = await params;
 
-  const restaurant = await getRestaurantByIdService(restaurantId);
+  const restaurant = await getRestaurantBySlugService(slug);
 
-  const product = await getProductByIdService({ productId, restaurantId });
+  if (!restaurant) {
+    throw new Error("Restaurante não encontrado");
+  }
 
-  const getAdditionalTitle = (additional: ProductAdditionalProps) => {
-    if (additional.quantity === 1) return "escolha 1";
-    if (additional.quantity === 2) return "escolha de 1 a 2";
-    if (additional.quantity > 2) return `escolha de 1 a ${additional.quantity}`;
-    if (additional.quantity === -1) return "escolha quantos quiser";
-  };
+  const product = await getProductByIdService({
+    productId,
+    restaurantId: restaurant.id,
+  });
 
-  if (!restaurant || !product) {
+  if (!product) {
     return (
       <div className="container-default">
         <NotFound.Root>
@@ -54,13 +58,22 @@ export default async function Product(props: ProductProps) {
               Tente buscar por outro nome
             </NotFound.Description>
             <Button asChild className="mt-3">
-              <Link href="/">Voltar para início</Link>
+              <Link href="/">voltar para início</Link>
             </Button>
           </NotFound.Content>
         </NotFound.Root>
       </div>
     );
   }
+
+  const productPrice = ProductUtils.getProductBasePrice(product);
+
+  const getAdditionalTitle = (additional: ProductAdditionalProps) => {
+    if (additional.quantity === 1) return "escolha 1";
+    if (additional.quantity === 2) return "escolha de 1 a 2";
+    if (additional.quantity > 2) return `escolha de 1 a ${additional.quantity}`;
+    if (additional.quantity === -1) return "escolha quantos quiser";
+  };
 
   return (
     <ProductPage.Root>
@@ -74,6 +87,30 @@ export default async function Product(props: ProductProps) {
         />
       </Hero.Root>
 
+      <Breadcrumb.Root className="container-default pt-4">
+        <Breadcrumb.List>
+          <Breadcrumb.Item>
+            <Breadcrumb.Link
+              href="/"
+              className="underline-offset-2 hover:underline"
+            >
+              início
+            </Breadcrumb.Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Separator />
+          <Breadcrumb.Item>
+            <Breadcrumb.Link
+              href={`/restaurants/${restaurant.slug}`}
+              className="underline-offset-2 hover:underline"
+            >
+              {restaurant.name}
+            </Breadcrumb.Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Separator />
+          <Breadcrumb.Item>{product.name}</Breadcrumb.Item>
+        </Breadcrumb.List>
+      </Breadcrumb.Root>
+
       <ProductPage.Header>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
@@ -83,7 +120,7 @@ export default async function Product(props: ProductProps) {
             <p className="text-sm font-extrabold text-neutral-500">
               a partir de{" "}
               <span className="text-lg font-extrabold text-purple-500">
-                R$ {product.price.toFixed(2)}
+                R$ {productPrice?.toFixed(2)}
               </span>
             </p>
             <p className="text-sm font-semibold text-neutral-500">
@@ -95,10 +132,7 @@ export default async function Product(props: ProductProps) {
             <div className="flex w-full flex-col gap-1.5">
               <h2 className="text-base font-bold text-neutral-700">quantos?</h2>
               <p className="text-sm font-semibold text-neutral-500">
-                total{" "}
-                <span className="font-bold text-neutral-700">
-                  <ProductPagePrice product={product} />
-                </span>
+                total <ProductPagePrice product={product} />
               </p>
             </div>
             <div className="flex flex-1 flex-col items-end">
@@ -131,18 +165,47 @@ export default async function Product(props: ProductProps) {
             </div>
 
             {additional.type === "unique" && (
-              <ProductPageUniqueOptions additional={additional} />
+              <ProductPageUniqueOptions
+                product={product}
+                additional={additional}
+              >
+                {additional.options.map((option) => (
+                  <ProductPageUniqueOptionItem
+                    key={option.id}
+                    option={option}
+                  />
+                ))}
+              </ProductPageUniqueOptions>
             )}
 
             {additional.type === "multiple" && (
               <div className="flex flex-col">
-                <ProductPageMultipleOptions additional={additional} />
+                {additional.options.map((option) => (
+                  <div className="flex-1" key={option.id}>
+                    <ProductPageMultipleOptions
+                      option={option}
+                      product={product}
+                      additional={additional}
+                    />
+                  </div>
+                ))}
               </div>
             )}
 
             {additional.type === "upsell" && (
               <div className="flex flex-col gap-4">
-                <ProductPageUpsellOptions additional={additional} />
+                {additional.options.map((option) => (
+                  <div
+                    className="flex flex-1 gap-3 rounded-sm p-2 hover:bg-neutral-50"
+                    key={option.id}
+                  >
+                    <ProductPageUpsellOptions
+                      product={product}
+                      additional={additional}
+                      option={option}
+                    />
+                  </div>
+                ))}
               </div>
             )}
           </ProductPage.Section>
@@ -154,10 +217,10 @@ export default async function Product(props: ProductProps) {
       </div>
 
       <ProductPage.Section>
-        <ProductPage.NotesTextArea />
+        <ProductPageNotes product={product} />
       </ProductPage.Section>
 
-      <ProductPageActions productId={productId} />
+      <ProductPageActions product={product} slug={restaurant.slug} />
     </ProductPage.Root>
   );
 }

@@ -48,12 +48,17 @@ function ProductPageQuantity(props: ProductPageQuantityProps) {
 }
 
 type ProductPageNotesTextAreaProps =
-  React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+  React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
+    value?: string;
+    onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  };
 
 function ProductPageNotesTextArea(props: ProductPageNotesTextAreaProps) {
   const {
     className,
-    placeholder = "alguma observação do item? exe: tirar algum ingrediente, ponto do prato",
+    placeholder = "alguma observação do item? ex: tirar algum ingrediente, ponto do prato",
+    value,
+    onChange,
     ...rest
   } = props;
 
@@ -61,8 +66,10 @@ function ProductPageNotesTextArea(props: ProductPageNotesTextAreaProps) {
     <textarea
       rows={2}
       placeholder={placeholder}
+      value={value}
+      onChange={onChange}
       className={cn(
-        "border-decorative-divider w-full resize-none rounded-sm border px-3 py-2 text-sm placeholder:text-sm placeholder:font-semibold placeholder:text-neutral-500",
+        "border-decorative-divider w-full font-bold resize-none rounded-sm border px-3 py-2 text-sm text-neutral-700 placeholder:text-sm placeholder:font-semibold placeholder:text-neutral-500",
         className,
       )}
       {...rest}

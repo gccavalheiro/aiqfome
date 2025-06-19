@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { MenuProps } from "@/utils/restaurant";
 import { RestaurantPageMenuProduct } from "./restaurant-page-menu-product.component";
+import { ProductUtils } from "@/utils/product";
 
 interface RestaurantPageMenuProps {
   menu: MenuProps;
@@ -15,7 +16,14 @@ export function RestaurantPageMenuItem(props: RestaurantPageMenuProps) {
   const { menu, restaurantId, slug } = props;
   const { products } = menu;
 
-  const isPromotion = products.some((product) => product.discount > 0);
+  const isPromotion = products.some((product) => {
+    const additionalOption = ProductUtils.getAdditionalMainFirstOption(product.additionals);
+
+    const hasAdditionalOptionDiscount =
+      additionalOption?.discount && additionalOption.discount > 0;
+
+    return hasAdditionalOptionDiscount || product.discount > 0;
+  });
 
   return (
     <Accordion.Item value={menu.id}>
@@ -49,6 +57,7 @@ export function RestaurantPageMenuItem(props: RestaurantPageMenuProps) {
             product={product}
             restaurantId={restaurantId}
             slug={slug}
+            isPromotion={isPromotion}
           />
         ))}
       </Accordion.Content>

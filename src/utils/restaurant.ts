@@ -41,8 +41,10 @@ export interface ProductProps {
 
 export interface ProductAdditionalProps {
   id: string;
+  productId: string;
   title: string;
   quantity: number;
+  main: boolean;
   type: 'unique' | 'multiple' | 'upsell';
   isRequired: boolean;
   options: ProductAdditionalOptionProps[];
@@ -71,23 +73,25 @@ const guioza: ProductProps = {
   isVegetarian: true,
   isSpicy: false,
   imageUrl: '/assets/images/loja/item/main-image.jpg',
-  price: 20.90,
+  price: 0,
   discount: 0,
-  quantity: 1,
+  quantity: 0,
   observation: null,
   additionals: [
     {
       id: '8d9e6679-7425-40de-944b-e07fc1f90ae8',
+      productId: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
       title: 'qual o tamanho?',
       quantity: 1,
       type: 'unique',
       isRequired: true,
+      main: true,
       options: [
         {
           id: '9e0f6679-7425-40de-944b-e07fc1f90ae9',
           title: 'pequeno',
           price: 15.90,
-          discount: 0,
+          discount: 5.00,
           quantity: 1
         },
         {
@@ -108,10 +112,12 @@ const guioza: ProductProps = {
     },
     {
       id: '2b3c6679-7425-40de-944b-e07fc1f90af2',
+      productId: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
       title: 'acompanhamentos',
       quantity: 3,
       type: 'multiple',
       isRequired: true,
+      main: false,
       options: [
         {
           id: '3c4d6679-7425-40de-944b-e07fc1f90af3',
@@ -145,10 +151,12 @@ const guioza: ProductProps = {
     },
     {
       id: '7a8b6679-7425-40de-944b-e07fc1f90af7',
+      productId: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
       title: 'vai querer bebida?',
       quantity: -1,
       type: 'upsell',
       isRequired: false,
+      main: false,
       options: [
         {
           id: '8b9c6679-7425-40de-944b-e07fc1f90af8',
@@ -189,10 +197,12 @@ const guioza: ProductProps = {
     },
     {
       id: '3a4b6679-7425-40de-944b-e07fc1f90afd',
+      productId: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
       title: 'precisa de talher?',
       quantity: 1,
       type: 'unique',
       isRequired: false,
+      main: false,
       options: [
         {
           id: '4b5c6679-7425-40de-944b-e07fc1f90afe',
@@ -212,10 +222,12 @@ const guioza: ProductProps = {
     },
     {
       id: '6d7e6679-7425-40de-944b-e07fc1f90b00',
+      productId: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
       title: 'mais alguma coisa?',
       quantity: 2,
       type: 'multiple',
       isRequired: false,
+      main: false,
       options: [
         {
           id: '7e8f6679-7425-40de-944b-e07fc1f90b01',
@@ -244,7 +256,7 @@ const guioza: ProductProps = {
 }
 
 const temaki: ProductProps = {
-  id: '2',
+  id: 'ba322073-71fd-4974-a45c-9ce008e5710f',
   restaurantId: 'e3f4a5b6-c7d8-6e7f-0a9b-1c2d3e4f5a6b',
   name: 'Temaki Salmão',
   description: 'Cone de alga nori recheado com arroz, salmão fresco e cream cheese.',
@@ -254,31 +266,33 @@ const temaki: ProductProps = {
   price: 24.90,
   observation: 'tira cebola, por favor',
   discount: 0,
-  quantity: 1,
+  quantity: 0,
   additionals: [
     {
-      id: '1',
+      id: 'ca4d71ff-d3f5-4c19-8556-5a3a409017e3',
+      productId: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
       title: 'acompanhamentos',
       quantity: 2,
       type: 'multiple',
       isRequired: true,
+      main: false,
       options: [
         {
-          id: '1',
+          id: 'ca4d71ff-d3f5-4c19-8556-5a3a409017e3',
           title: 'shoyu',
           price: 0,
           discount: 0,
           quantity: 1
         },
         {
-          id: '2',
+          id: '0f4587a4-a45b-4b30-968d-42ceaad6938d',
           title: 'gengibre',
           price: 0,
           discount: 0,
           quantity: 1
         },
         {
-          id: '3',
+          id: '90f3105a-d1ac-46f4-ac59-915b1c3c6bff',
           title: 'wasabi',
           price: 0,
           discount: 0,
@@ -290,7 +304,7 @@ const temaki: ProductProps = {
 }
 
 const sushiCombo: ProductProps = {
-  id: '3',
+  id: '7bf1c5fc-68c9-4609-9646-c9fca6c7a27f',
   restaurantId: 'e3f4a5b6-c7d8-6e7f-0a9b-1c2d3e4f5a6b',
   name: 'Combo Sushi Premium',
   description: '12 peças de sushi variado com salmão, atum e camarão.',
@@ -299,32 +313,34 @@ const sushiCombo: ProductProps = {
   observation: null,
   imageUrl: '/assets/images/loja/item/main-image.jpg',
   price: 45.90,
-  quantity: 1,
+  quantity: 0,
   discount: 5.00,
   additionals: [
     {
-      id: '1',
+      id: '23c4f14c-1b7b-466e-9bad-1945005bcbc2',
+      productId: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
       title: 'acompanhamentos',
       quantity: 1,
       type: 'multiple',
       isRequired: true,
+      main: false,
       options: [
         {
-          id: '1',
+          id: '1e87d4d3-e12d-4c8b-9eb5-dc2b815e92cf',
           title: 'shoyu',
           price: 0,
           discount: 0,
           quantity: 1
         },
         {
-          id: '2',
+          id: '2ca41af3-2220-4c88-8d26-5b30df8d0992',
           title: 'gengibre',
           price: 0,
           discount: 0,
           quantity: 1
         },
         {
-          id: '3',
+          id: '32fce54c-a42c-4fe7-bd6a-2c73bf55f371',
           title: 'wasabi',
           price: 0,
           discount: 0,
@@ -336,7 +352,7 @@ const sushiCombo: ProductProps = {
 }
 
 const ramen: ProductProps = {
-  id: '4',
+  id: '558d58b4-65d2-475d-8795-823eaa49d8b8',
   restaurantId: 'e3f4a5b6-c7d8-6e7f-0a9b-1c2d3e4f5a6b',
   name: 'Ramen Tonkotsu',
   description: 'Macarrão em caldo de porco cremoso com chashu, ovo marinado e cebolinha.',
@@ -346,24 +362,26 @@ const ramen: ProductProps = {
   imageUrl: '/assets/images/loja/item/main-image.jpg',
   price: 32.90,
   discount: 0,
-  quantity: 1,
+  quantity: 0,
   additionals: [
     {
-      id: '1',
+      id: 'bf6bd4f5-555f-48ef-823a-a05ca0c0d15b',
+      productId: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
       title: 'tempero',
       quantity: 1,
       type: 'unique',
       isRequired: false,
+      main: false,
       options: [
         {
-          id: '1',
+          id: 'deac7968-6eb8-41f8-be43-de1c6b141c77',
           title: 'picante',
           price: 0,
           discount: 0,
           quantity: 1
         },
         {
-          id: '2',
+          id: '7124cc4a-7c06-47b4-b762-6ac1cd5b1a4c',
           title: 'normal',
           price: 0,
           discount: 0,
@@ -372,11 +390,13 @@ const ramen: ProductProps = {
       ]
     },
     {
-      id: '2',
+      id: '7124cc4a-7c06-47b4-b762-6ac1cd5b1a4c',
+      productId: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
       title: 'extras',
       quantity: 1,
       type: 'multiple',
       isRequired: false,
+      main: false,
       options: [
         {
           id: '1',
@@ -396,6 +416,16 @@ const ramen: ProductProps = {
     }
   ]
 }
+
+
+export const checkoutData: CheckoutProps[] = [
+  {
+    id: '54a5068d-3e8f-4ee3-98f7-bd24bf34598d',
+    restaurantId: 'e3f4a5b6-c7d8-6e7f-0a9b-1c2d3e4f5a6b',
+    products: [guioza, temaki, sushiCombo, ramen],
+  },
+];
+
 
 const matsuri: RestaurantProps = {
   id: "e3f4a5b6-c7d8-6e7f-0a9b-1c2d3e4f5a6b",
@@ -486,10 +516,12 @@ const subway: RestaurantProps = {
           additionals: [
             {
               id: "3e4f6679-7425-40de-944b-e07fc1f90b07",
+              productId: "550e8400-e29b-41d4-a716-446655440000",
               title: "Pão",
               quantity: 1,
               type: "unique",
               isRequired: true,
+              main: false,
               options: [
                 {
                   id: "4f5a6679-7425-40de-944b-e07fc1f90b08",
@@ -558,10 +590,12 @@ const mcdonalds: RestaurantProps = {
           additionals: [
             {
               id: "9e0f6679-7425-40de-944b-e07fc1f90b0d",
+              productId: "7c9e6679-7425-40de-944b-e07fc1f90ae7",
               title: "Bebida",
               quantity: 1,
               type: "unique",
               isRequired: true,
+              main: false,
               options: [
                 {
                   id: "0f1a6679-7425-40de-944b-e07fc1f90b0e",
@@ -630,29 +664,31 @@ const burgerKing: RestaurantProps = {
           additionals: [
             {
               id: "5e6f6679-7425-40de-944b-e07fc1f90b13",
+              productId: "8d9e6679-7425-40de-944b-e07fc1f90ae8",
               title: "Bebida",
               quantity: 1,
               type: "unique",
               isRequired: true,
+              main: false,
               options: [
                 {
                   id: "6f7a6679-7425-40de-944b-e07fc1f90b14",
                   title: "Coca-Cola",
-                  price: 0,
+                  price: 5,
                   discount: 0,
                   quantity: 1
                 },
                 {
                   id: "7a8b6679-7425-40de-944b-e07fc1f90b15",
                   title: "Fanta Laranja",
-                  price: 0,
+                  price: 5,
                   discount: 0,
                   quantity: 1
                 },
                 {
                   id: "8b9c6679-7425-40de-944b-e07fc1f90b16",
                   title: "Sprite",
-                  price: 0,
+                  price: 5,
                   discount: 0,
                   quantity: 1
                 }
@@ -702,10 +738,12 @@ const girafas: RestaurantProps = {
           additionals: [
             {
               id: "1e2f6679-7425-40de-944b-e07fc1f90b19",
+              productId: "9e0f6679-7425-40de-944b-e07fc1f90ae9",
               title: "Bebida",
               quantity: 1,
               type: "unique",
               isRequired: true,
+              main: false,
               options: [
                 {
                   id: "2f3a6679-7425-40de-944b-e07fc1f90b1a",
@@ -774,10 +812,12 @@ const outback: RestaurantProps = {
           additionals: [
             {
               id: "7e8f6679-7425-40de-944b-e07fc1f90b1f",
+              productId: "0f1a6679-7425-40de-944b-e07fc1f90af0",
               title: "Acompanhamentos",
               quantity: 2,
               type: "multiple",
               isRequired: true,
+              main: false,
               options: [
                 {
                   id: "8f9a6679-7425-40de-944b-e07fc1f90b20",
@@ -846,10 +886,12 @@ const habibs: RestaurantProps = {
           additionals: [
             {
               id: "3e4f6679-7425-40de-944b-e07fc1f90b25",
+              productId: "0f1a6679-7425-40de-944b-e07fc1f90af0",
               title: "Bebida",
               quantity: 1,
               type: "unique",
               isRequired: true,
+              main: false,
               options: [
                 {
                   id: "4f5a6679-7425-40de-944b-e07fc1f90b26",
@@ -912,10 +954,12 @@ const chinaBox: RestaurantProps = {
           additionals: [
             {
               id: "8d9e6679-7425-40de-944b-e07fc1f90b2a",
+              productId: "0f1a6679-7425-40de-944b-e07fc1f90af0",
               title: "Bebida",
               quantity: 1,
               type: "unique",
               isRequired: true,
+              main: false,
               options: [
                 {
                   id: "9e0f6679-7425-40de-944b-e07fc1f90b2b",
@@ -977,10 +1021,12 @@ const pizzaHut: RestaurantProps = {
           additionals: [
             {
               id: "3c4d6679-7425-40de-944b-e07fc1f90b2f",
+              productId: "0f1a6679-7425-40de-944b-e07fc1f90af0",
               title: "Tamanho",
               quantity: 1,
               type: "unique",
               isRequired: true,
+              main: false,
               options: [
                 {
                   id: "4d5e6679-7425-40de-944b-e07fc1f90b30",
