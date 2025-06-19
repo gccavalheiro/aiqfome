@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { useCheckout } from "@/contexts/checkout.context";
+import { useCheckoutContext } from "@/contexts/checkout.context";
 import {
   ProductAdditionalOptionProps,
   ProductAdditionalProps,
@@ -20,10 +20,12 @@ export function ProductPageUpsellOptions(props: ProductPageUpsellOptionsProps) {
   const { additional, product, option } = props;
 
   const { addUpsellOptionToCheckout, removeUpsellOptionFromCheckout } =
-    useCheckout();
+    useCheckoutContext();
 
   // Busca a quantidade atual da opção no checkout
-  const checkoutProduct = useCheckout().getCheckoutProductById(product.id);
+  const checkoutProduct = useCheckoutContext().getCheckoutProductById(
+    product.id,
+  );
   const currentAdditional = checkoutProduct?.additionals.find(
     (add) => add.id === additional.id,
   );

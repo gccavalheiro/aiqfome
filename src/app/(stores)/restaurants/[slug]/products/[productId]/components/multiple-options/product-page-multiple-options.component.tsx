@@ -1,6 +1,6 @@
 "use client";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useCheckout } from "@/contexts/checkout.context";
+import { useCheckoutContext } from "@/contexts/checkout.context";
 import {
   ProductAdditionalOptionProps,
   ProductAdditionalProps,
@@ -22,7 +22,7 @@ export function ProductPageMultipleOptions(
     addAdditionalOptionToCheckout,
     removeAdditionalOptionFromCheckout,
     getCheckoutProductById,
-  } = useCheckout();
+  } = useCheckoutContext();
 
   const checkoutProduct = getCheckoutProductById(product.id);
   const isSelected =

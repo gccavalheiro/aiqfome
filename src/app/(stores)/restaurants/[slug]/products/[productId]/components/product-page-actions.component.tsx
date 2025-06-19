@@ -3,7 +3,7 @@
 import { ProductPage } from "@/components/product-page";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { useCheckout } from "@/contexts/checkout.context";
+import { useCheckoutContext } from "@/contexts/checkout.context";
 import { ProductProps } from "@/utils/restaurant";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -17,7 +17,7 @@ export function ProductPageActions(props: ProductPageActionsProps) {
   const { product, slug } = props;
 
   const { checkout, getCheckoutProductById, getCheckoutTotalPrice } =
-    useCheckout();
+    useCheckoutContext();
 
   const mainPrice = product?.additionals.find((add) => add.main === true)
     ?.options[0].price;

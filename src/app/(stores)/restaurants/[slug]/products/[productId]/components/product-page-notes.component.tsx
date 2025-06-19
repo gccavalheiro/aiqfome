@@ -1,6 +1,6 @@
 "use client";
 import { ProductPage } from "@/components/product-page";
-import { useCheckout } from "@/contexts/checkout.context";
+import { useCheckoutContext } from "@/contexts/checkout.context";
 import { ProductProps } from "@/utils/restaurant";
 import React from "react";
 
@@ -11,7 +11,7 @@ interface ProductPageNotesProps {
 export function ProductPageNotes(props: ProductPageNotesProps) {
   const { product } = props;
   const { checkout, getCheckoutProductById, addNotesToCheckout } =
-    useCheckout();
+    useCheckoutContext();
 
   const initialObservation = checkout?.products.find(
     (p) => p.id === product.id,

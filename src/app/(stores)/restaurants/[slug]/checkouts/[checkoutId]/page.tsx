@@ -15,7 +15,6 @@ export default async function CheckoutPage(props: CheckoutPageProps) {
 
   const restaurant = await getRestaurantBySlugService(slug);
 
-  console.log("restaurant", restaurant);
   if (!restaurant) {
     redirect("/");
   }

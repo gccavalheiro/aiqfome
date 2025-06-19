@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { useCheckout } from "@/contexts/checkout.context";
+import { useCheckoutContext } from "@/contexts/checkout.context";
 import { ProductProps } from "@/utils/restaurant";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -20,7 +20,7 @@ export function ProductPageQuantityButtons(
     addProductToCheckout,
     decreaseProductQuantity,
     removeProductFromCheckout,
-  } = useCheckout();
+  } = useCheckoutContext();
   const checkoutProduct = getCheckoutProductById(product.id);
 
   const quantity = checkoutProduct?.quantity || 0;

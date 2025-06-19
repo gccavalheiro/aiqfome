@@ -24,10 +24,7 @@ function HeaderContainer(props: HeaderContainerProps) {
 
   return (
     <div
-      className={cn(
-        "container-default md:fle-row flex flex-col gap-4",
-        className,
-      )}
+      className={cn("container-default flex flex-col gap-4", className)}
       {...rest}
     />
   );
@@ -56,7 +53,7 @@ function HeaderLogo(props: HeaderLogoProps) {
 
   return (
     <div
-      className={cn("xs:min-w-8 xs:w-8 h-full w-6 min-w-6", className)}
+      className={cn("xs:min-w-8 xs:w-8 h-auto w-6 min-w-6", className)}
       {...rest}
     />
   );

@@ -1,6 +1,6 @@
 "use client";
 import { RadioGroup } from "@/components/ui/radio-group";
-import { useCheckout } from "@/contexts/checkout.context";
+import { useCheckoutContext } from "@/contexts/checkout.context";
 import { ProductAdditionalProps, ProductProps } from "@/utils/restaurant";
 
 interface ProductPageUniqueOptionsProps {
@@ -13,7 +13,7 @@ export function ProductPageUniqueOptions(props: ProductPageUniqueOptionsProps) {
   const { children, product, additional } = props;
 
   const { addAdditionalOptionToCheckout, getCheckoutProductById } =
-    useCheckout();
+    useCheckoutContext();
 
   const checkoutProduct = getCheckoutProductById(product.id);
   const selectedOption = checkoutProduct?.additionals.find(

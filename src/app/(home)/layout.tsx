@@ -45,27 +45,24 @@ export default function HomeLayout({
     <div className="relative text-neutral-500">
       <Header.Root>
         <Header.Container>
-          <Header.Content>
-            <Header.Logo>
+          <Header.Content className="grid-template-header grid grid-cols-[auto_1fr_auto] md:flex">
+            <Header.Logo className="[grid-area:logo]">
               <Logo />
             </Header.Logo>
-            <Header.Location>
+            <Header.Location className="[grid-area:location]">
               <DeliveryLocation />
             </Header.Location>
-            <Header.Search className="hidden md:block">
+            <Header.Search className="[grid-area:search]">
               <Search />
             </Header.Search>
-            <Header.User>
+            <Header.User className="[grid-area:user]">
               <Icon icon={faUser} size={20} />
             </Header.User>
           </Header.Content>
-          <Header.Search className="md:hidden">
-            <Search />
-          </Header.Search>
         </Header.Container>
       </Header.Root>
 
-      <main className="min-h-[calc(100dvh-6.25rem)] pt-[8.25rem] md:pt-[4.75rem]">
+      <main className="min-h-[calc(100dvh-6.25rem)] pt-[7.875rem] md:pt-[4.75rem]">
         {children}
       </main>
 

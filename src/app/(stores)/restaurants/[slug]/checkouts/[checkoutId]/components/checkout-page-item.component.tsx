@@ -1,17 +1,10 @@
-"use client";
 import { CheckoutItem } from "@/components/checkout/checkout-item";
-import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { useCheckout } from "@/contexts/checkout.context";
 import { ProductProps } from "@/utils/restaurant";
-import {
-  faMinus,
-  faPencilAlt,
-  faPlus,
-  faTrashAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 import Link from "next/link";
+import { CheckoutPageItemQuantityControls } from "./checkout-page-item-quantity-controls.component";
 
 interface CheckoutPageItemProps {
   product: ProductProps;
@@ -20,30 +13,7 @@ interface CheckoutPageItemProps {
 
 export function CheckoutPageItem(props: CheckoutPageItemProps) {
   const { product, slug } = props;
-  const { id, name, quantity } = product;
-  const {
-    getCheckoutTotalPrice,
-    addProductToCheckout,
-    decreaseProductQuantity,
-    removeProductFromCheckout,
-  } = useCheckout();
-
-  const totalPrice = getCheckoutTotalPrice(product);
-
-  function handleIncreaseQuantity() {
-    addProductToCheckout({
-      restaurantId: product.restaurantId,
-      product,
-    });
-  }
-
-  function handleDecreaseQuantity() {
-    decreaseProductQuantity(product.id);
-  }
-
-  function handleRemoveProduct() {
-    removeProductFromCheckout(product.id);
-  }
+  const { id, name } = product;
 
   return (
     <CheckoutItem.Root key={id}>
@@ -57,38 +27,7 @@ export function CheckoutPageItem(props: CheckoutPageItemProps) {
       <CheckoutItem.Header>
         <CheckoutItem.Title>{name}</CheckoutItem.Title>
         <div className="flex justify-between">
-          <CheckoutItem.Price>R$ {totalPrice.toFixed(2)}</CheckoutItem.Price>
-          <CheckoutItem.Quantity>
-            {quantity > 1 ? (
-              <Button
-                onClick={handleDecreaseQuantity}
-                variant="ghost"
-                className="hover:text-neutral-0 h-6 min-h-6 w-6 max-w-6 min-w-6 rounded-full border border-teal-400 p-0 text-teal-400 hover:bg-teal-400"
-              >
-                <Icon icon={faMinus} size={14} />
-              </Button>
-            ) : (
-              <Button
-                onClick={handleRemoveProduct}
-                variant="ghost"
-                className="hover:text-neutral-0 h-6 min-h-6 w-6 max-w-6 min-w-6 rounded-full border border-transparent p-0 text-teal-400 transition-none hover:border-teal-400 hover:bg-teal-400"
-              >
-                <Icon icon={faTrashAlt} size={20} />
-              </Button>
-            )}
-
-            <span className="xs:min-w-8 min-w-5 flex-1 text-center text-sm font-bold text-neutral-700">
-              {quantity}
-            </span>
-
-            <Button
-              variant="ghost"
-              className="hover:text-neutral-0 h-6 min-h-6 w-6 max-w-6 min-w-6 rounded-full border border-teal-400 p-0 text-teal-400 hover:bg-teal-400"
-              onClick={handleIncreaseQuantity}
-            >
-              <Icon icon={faPlus} size={14} />
-            </Button>
-          </CheckoutItem.Quantity>
+          <CheckoutPageItemQuantityControls product={product} />
         </div>
       </CheckoutItem.Header>
 
@@ -98,16 +37,30 @@ export function CheckoutPageItem(props: CheckoutPageItemProps) {
             {additional.title}
           </CheckoutItem.ResumeHeader>
           <CheckoutItem.ResumeContent>
-            {additional.options.map((option) => (
-              <p key={option.id} className="flex items-center gap-2">
-                {option.title}{" "}
-                {option.price > 0 && (
-                  <span className="font-bold text-teal-400">
-                    +R$ {option.price.toFixed(2)}
-                  </span>
-                )}
-              </p>
-            ))}
+            {additional.options.map((option) => {
+              const hasDiscount = option.discount && option.discount > 0;
+              const priceWithDiscount = hasDiscount
+                ? (option.price - option.discount) * option.quantity
+                : option.price * option.quantity;
+
+              return (
+                <p key={option.id} className="flex items-center">
+                  {option.quantity > 1 && (
+                    <span className="mr-1">{option.quantity}x</span>
+                  )}
+                  <span>{option.title}</span>
+                  {option.price > 0 && (
+                    <span className="ml-2 font-bold text-teal-400">
+                      +R${" "}
+                      {(hasDiscount
+                        ? priceWithDiscount
+                        : option.price * option.quantity
+                      ).toFixed(2)}
+                    </span>
+                  )}
+                </p>
+              );
+            })}
           </CheckoutItem.ResumeContent>
         </CheckoutItem.Resume>
       ))}

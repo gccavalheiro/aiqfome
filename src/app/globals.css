@@ -190,6 +190,12 @@ body {
   font-family: var(--font-nunito);
 }
 
+.grid-template-header {
+  grid-template-areas:
+    "logo location user"
+    "search search search";
+}
+
 .dark {
   --background: oklch(0.13 0.028 261.692);
   --foreground: oklch(0.985 0.002 247.839);

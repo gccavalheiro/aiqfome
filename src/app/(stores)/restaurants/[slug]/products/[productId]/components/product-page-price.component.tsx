@@ -1,5 +1,5 @@
 "use client";
-import { useCheckout } from "@/contexts/checkout.context";
+import { useCheckoutContext } from "@/contexts/checkout.context";
 import { ProductProps } from "@/utils/restaurant";
 
 interface ProductPagePriceProps {
@@ -8,7 +8,8 @@ interface ProductPagePriceProps {
 
 export function ProductPagePrice(props: ProductPagePriceProps) {
   const { product } = props;
-  const { getCheckoutProductById, getCheckoutTotalPrice } = useCheckout();
+  const { getCheckoutProductById, getCheckoutTotalPrice } =
+    useCheckoutContext();
 
   const checkoutProduct = getCheckoutProductById(product.id);
 

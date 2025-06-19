@@ -3,7 +3,7 @@
 import { ProductPage } from "@/components/product-page";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { useCheckout } from "@/contexts/checkout.context";
+import { useCheckoutContext } from "@/contexts/checkout.context";
 import { RestaurantProps } from "@/utils/restaurant";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -14,7 +14,7 @@ interface RestaurantPageActionsProps {
 
 export function RestaurantPageActions(props: RestaurantPageActionsProps) {
   const { restaurant } = props;
-  const { getCheckoutTotalPrice, checkout } = useCheckout();
+  const { getCheckoutTotalPrice, checkout } = useCheckoutContext();
 
   const totalPrice = checkout?.products.reduce((acc, product) => {
     return acc + getCheckoutTotalPrice(product);
