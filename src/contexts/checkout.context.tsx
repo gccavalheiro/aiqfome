@@ -1,6 +1,7 @@
 "use client";
-import React, { ReactNode } from "react";
 import { useCheckout } from "@/hooks";
+import { RestaurantProps } from "@/utils/restaurant";
+import React, { ReactNode } from "react";
 
 interface CheckoutContext {
   checkout: ReturnType<typeof useCheckout>["checkout"];
@@ -39,12 +40,13 @@ const CheckoutContext = React.createContext<CheckoutContext>(
 
 interface CheckoutProviderProps {
   children: ReactNode;
+  restaurant: RestaurantProps;
 }
 
 export function CheckoutProvider(props: CheckoutProviderProps) {
-  const { children } = props;
+  const { children, restaurant } = props;
 
-  const checkoutHook = useCheckout();
+  const checkoutHook = useCheckout({ restaurant });
 
   return (
     <CheckoutContext.Provider value={checkoutHook}>

@@ -13,16 +13,19 @@ import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { ProductPageMultipleOptions } from "./components/multiple-options/product-page-multiple-options.component";
-import { ProductPageActions } from "./components/product-page-actions.component";
-import { ProductPageNotes } from "./components/product-page-notes.component";
-import { ProductPagePrice } from "./components/product-page-price.component";
-import { ProductPageQuantityButtons } from "./components/product-page-quantity-buttons.component";
-import { ProductPageUniqueOptionItem } from "./components/unique-options/product-page-unique-option-item.component";
-import { ProductPageUniqueOptions } from "./components/unique-options/product-page-unique-options.component";
-import { ProductPageUpsellOptions } from "./components/upsell-options/product-page-upsell-options.component";
+
 import { ProductUtils } from "@/utils/product";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
+import {
+  ProductPageActions,
+  ProductPageMultipleOptions,
+  ProductPageNotes,
+  ProductPagePrice,
+  ProductPageQuantityButtons,
+  ProductPageUniqueOptionItem,
+  ProductPageUniqueOptions,
+  ProductPageUpsellOptions,
+} from "./components";
 
 interface ProductProps {
   params: Promise<{

@@ -15,7 +15,7 @@ interface CheckoutContentProps {
 
 export function CheckoutPageContent(props: CheckoutContentProps) {
   const { restaurant } = props;
-  const { checkout, getCheckoutTotalPrice, isLoading } = useCheckoutContext();
+  const { checkout, isLoading, getCheckoutTotalPrice } = useCheckoutContext();
 
   React.useEffect(() => {
     if (checkout?.products.length === 0) {

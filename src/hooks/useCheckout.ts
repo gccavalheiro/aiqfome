@@ -1,11 +1,19 @@
-import { useCheckoutState } from "./useCheckoutState";
-import { useCheckoutProducts } from "./useCheckoutProducts";
+import { RestaurantProps } from "@/utils/restaurant";
 import { useCheckoutAdditionals } from "./useCheckoutAdditionals";
 import { useCheckoutPricing } from "./useCheckoutPricing";
+import { useCheckoutProducts } from "./useCheckoutProducts";
+import { useCheckoutState } from "./useCheckoutState";
 
-export function useCheckout() {
-  const { checkout, setCheckout, isLoading, createCheckout } = useCheckoutState();
-  
+interface UseCheckoutProps {
+  restaurant: RestaurantProps;
+}
+
+export function useCheckout(props: UseCheckoutProps) {
+  const { restaurant } = props;
+
+  const { checkout, setCheckout, isLoading, createCheckout } =
+    useCheckoutState({ restaurant });
+
   const {
     getCheckoutProductById,
     addProductToCheckout,
@@ -37,4 +45,4 @@ export function useCheckout() {
     getCheckoutTotalPrice,
     addNotesToCheckout,
   };
-} 
+}

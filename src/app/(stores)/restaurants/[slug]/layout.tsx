@@ -4,18 +4,31 @@ import { Header } from "@/components/header";
 import { Logo } from "@/components/logo";
 import { Icon } from "@/components/ui/icon";
 import { CheckoutProvider } from "@/contexts/checkout.context";
+import { getRestaurantBySlugService } from "@/services/restaurant-service";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 interface RestaurantLayoutProps {
   children: ReactNode;
+  params: Promise<{
+    slug: string;
+  }>;
 }
 
 export default async function RestaurantLayout(props: RestaurantLayoutProps) {
-  const { children } = props;
+  const { children, params } = props;
+
+  const { slug } = await params;
+
+  const restaurant = await getRestaurantBySlugService(slug);
+
+  if (!restaurant) {
+    redirect("/");
+  }
 
   return (
-    <CheckoutProvider>
+    <CheckoutProvider restaurant={restaurant}>
       <div className="relative text-neutral-500">
         <Header.Root>
           <Header.Container>
@@ -34,7 +47,7 @@ export default async function RestaurantLayout(props: RestaurantLayoutProps) {
           </Header.Container>
         </Header.Root>
 
-        <main className="min-h-[calc(100dvh-6.25rem)] pt-[4.75rem] flex flex-col">
+        <main className="flex min-h-[calc(100dvh-6.25rem)] flex-col pt-[4.75rem]">
           {children}
         </main>
 
